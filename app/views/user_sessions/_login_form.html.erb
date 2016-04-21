@@ -1,0 +1,48 @@
+
+<% @user_session ||= UserSession.new%>
+<% @user_session.remember_me = true%>
+<%=render :partial=>'common/cool_popup_start', :locals=>{:table_class=>"login-form hidden", :title=>"", :right=>'<a href="javascript:void(0)" class="link-to-reset-password">Forgot password?</a></div>'}%>
+    <%
+      #url causes missing-host errors sometimes!
+      url = user_sessions_url(:secure => secure?) #rescue "https://#{Settings.host}/user_sessions"
+    %>
+    <%= form_for @user_session, :url => url do |f| %>
+        <% if @user_session.errors.present? %>
+            <div style="color: red;">Incorrect email or password. Please try again.</div>
+        <% end %>
+        <%= f.label :email %>
+        <%= f.text_field :email, :size => nil, :style => 'width: 210px;' %>
+        <%= f.label :password %>
+        <%= f.password_field :password, :size => nil, :style => 'width: 210px;' %>
+        <%= f.check_box :remember_me, :style => 'float: left; margin: 0;' %>
+        <%= f.label :remember_me, nil, :style => 'float: left; margin: 1px 0 0 6px;' %>
+        <%#= f.submit 'Login', :class => 'login-button button-with-hover' %>
+        <div class="form-button-wrapper form-button-wrapper--align-right">
+          <input type="submit" class="button sqs-system-button sqs-editable-button" value="Login">
+        </div>
+        <%= link_to "Set up a new account", new_user_path, :style => 'clear: both; display: block; text-align: center; padding-top: 0.8em;' %>
+      <%end%>
+
+<%=render :partial=>'common/cool_popup_end'%>
+<%=render :partial=>'common/cool_popup_start', :locals=>{:table_class=>'forgot-password-form hidden', :right=>'', :title=>'Forgot Password'}%>
+
+
+    Please enter your email to have password-reset instructions emailed to you. <br/><br/>
+    <%
+      #url causes missing-host errors sometimes!
+      url = password_resets_url(:secure => secure?) #rescue "https://#{Settings.host}/password_resets"
+    %>
+    <%= form_tag url  do %>
+        <label style="margin-top: 0;">Email:</label>
+        <%= text_field_tag "email" %>
+        <%= link_to "BACK","javascript:void(0);",:class => "back-to-login"%>
+        <%= submit_tag '', :class => 'email-password-button button-with-hover' %>
+    <% end %>
+<%=render :partial=>'common/cool_popup_end'%>
+<%if @show_popup%>
+    <script>
+      $(document).ready(function() {
+        $('.loginable').click();
+      });
+    </script>
+<%end%>

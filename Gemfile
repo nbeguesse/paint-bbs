@@ -15,5 +15,7 @@ gem "authlogic",              "= 3.2.0"
 gem 'jquery-rails'
 gem "paperclip",              "~> 2.7"
 gem 'will_paginate', "~>3.0"
+gem "bcrypt-ruby",            "= 3.0.1" #for password hashing
+
 
 

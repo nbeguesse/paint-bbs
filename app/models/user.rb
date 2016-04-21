@@ -1,5 +1,8 @@
 class User < ActiveRecord::Base
-  attr_accessible :email, :name
+  attr_accessible :email, :name, :password
+  validates_presence_of :name
+  validates_presence_of :email
+  validates_uniqueness_of :email
 
   PATH = '/avatars/:id/:style.:extension'
   opts =

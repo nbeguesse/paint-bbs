@@ -1,25 +1,28 @@
-<%= form_for(@user) do |f| %>
-  <% if @user.errors.any? %>
-    <div id="error_explanation">
-      <h2><%= pluralize(@user.errors.count, "error") %> prohibited this user from being saved:</h2>
 
-      <ul>
-      <% @user.errors.full_messages.each do |msg| %>
-        <li><%= msg %></li>
-      <% end %>
-      </ul>
-    </div>
-  <% end %>
+<div class="form-wrapper">
+  <div class="form-inner-wrapper">
+    <%= form_for @user,:url => users_url(:secure => secure?) do |f| %>    
+      <div class="field-list clear">
+        <div class="form-item field name required">
+          <%=f.label :name, :class=>"title"%>
+          <%=f.text_field :name, :class=>"field-element"%>        
+        </div>
+        <div class="form-item field email required">
+          <%=f.label :email, :class=>"title"%>
+          <%=f.text_field :email, :class=>"field-element"%>
+        </div>
+        <%if @user.new_record?%>
+          <div class="form-item field password required">
+            <%=f.label :password, :class=>"title"%>
+            <%=f.password_field :password, :class=>"field-element"%>
+          </div>
+        <%end%>
+      </div>
+      <div class="form-button-wrapper form-button-wrapper--align-left">
+        <input type="submit" value="Submit" class="button sqs-system-button sqs-editable-button">
+      </div>
+        
+    <%end%>
+  </div>
+</div>
 
-  <div class="field">
-    <%= f.label :name %><br />
-    <%= f.text_field :name %>
-  </div>
-  <div class="field">
-    <%= f.label :email %><br />
-    <%= f.text_field :email %>
-  </div>
-  <div class="actions">
-    <%= f.submit %>
-  </div>
-<% end %>

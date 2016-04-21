@@ -1,7 +1,7 @@
 class Post < ActiveRecord::Base
   attr_accessible :message, :title
 
-  IMG_PATH = '/images/:id/:style.:extension'
+  IMG_PATH = '/posts/:id/:style.:extension'
   ANIM_PATH = '/anim/:id/:style.:extension'
 
   has_attached_file :image, {

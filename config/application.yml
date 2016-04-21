@@ -1,9 +1,6 @@
 # config/application.yml
 defaults: &defaults
-  cool:
-    saweet: nested settings
-  neat_setting: 24
-  awesome_setting: 45
+  host: localhost:3000
 
 development:
   <<: *defaults
@@ -14,3 +11,4 @@ test:
 
 production:
   <<: *defaults
+  host: draw.angelboy.com

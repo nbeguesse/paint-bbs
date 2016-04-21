@@ -1,0 +1,173 @@
+.alert-success, .alert-notice {
+    background-color: #dff0d8;
+    border-color: #d6e9c6;
+    color: #3c763d;
+}
+.alert {
+    border: 1px solid transparent;
+    border-radius: 4px;
+    margin-bottom: 20px;
+    padding: 15px;
+}
+.alert-info {
+    background-color: #d9edf7;
+    border-color: #bce8f1;
+    color: #31708f;
+}
+.alert-warning {
+    background-color: #fcf8e3;
+    border-color: #faebcc;
+    color: #8a6d3b;
+}
+.alert-danger, .alert-error {
+    background-color: #f2dede;
+    border-color: #ebccd1;
+    color: #a94442;
+}
+button.close {
+    background: rgba(0, 0, 0, 0) none repeat scroll 0 0;
+    border: 0 none;
+    cursor: pointer;
+    padding: 0;
+}
+.close {
+    color: #000;
+    float: right;
+    font-size: 21px;
+    font-weight: 700;
+    line-height: 1;
+    opacity: 0.2;
+    text-shadow: 0 1px 0 #fff;
+}
+.sr-only {
+    border: 0 none;
+    clip: rect(0px, 0px, 0px, 0px);
+    height: 1px;
+    margin: -1px;
+    overflow: hidden;
+    padding: 0;
+    position: absolute;
+    width: 1px;
+}
+/******** COOL POPUP *******************/
+.cool-popup {
+    font-size: 120%;
+}
+
+.cool-popup .top-left-corner {
+  background-position: left -2300px;
+}
+
+.cool-popup .header,
+.cool-popup .header a {
+  color: white;
+}
+
+.cool-popup .header h3 {
+  margin: 0;
+  padding: 0;
+  text-transform: uppercase;
+  font-size: 100%;
+}
+
+.cool-popup .header .right-hand {
+  float: right;
+}
+
+.cool-popup .top-edge {
+  background-position: left -2350px;
+  background-image: url(/images/layout.png);
+  background-repeat: no-repeat;
+  text-align: left;
+}
+
+.cool-popup .top-right-corner {
+  background-position: right -2350px;
+}
+
+.cool-popup .top-right-corner,
+.cool-popup .top-left-corner {
+  width: 10px;
+  height: 30px;
+  background-image: url(/images/layout.png);
+  background-repeat: no-repeat;
+}
+
+.cool-popup .left-edge {
+  background-position: left 0;
+}
+
+.cool-popup .right-edge {
+  background-position: right 0;
+}
+
+.cool-popup .left-edge,
+.cool-popup .right-edge {
+  width: 10px;
+  background-image: url(/images/cool-popup-borders.png);
+  background-repeat: repeat-y;
+}
+
+.cool-popup .body {
+  text-align: left;
+  padding: 6px;
+}
+
+.cool-popup .central-cell {
+  background: url(/images/cool-popup-background.png);
+}
+
+.cool-popup .bottom-right-corner {
+  background-position: right -1950px;
+}
+
+.cool-popup .bottom-right-corner,
+.cool-popup .bottom-left-corner {
+  width: 10px;
+  height: 11px;
+  background-image: url(/images/layout.png);
+  background-repeat: no-repeat;
+}
+
+.cool-popup .bottom-left-corner {
+  background-position: left -1900px;
+}
+
+.cool-popup .bottom-edge {
+  background-position: left -1950px;
+  background-image: url(/images/layout.png);
+  background-repeat: no-repeat;
+  text-align: left;
+}
+
+.cool-popup label, .cool-popup input {
+    display: block;
+}
+
+.cool-popup label {
+    margin-top: 1em;
+}
+
+.cool-popup input {
+    margin-bottom: 1em;    
+}
+
+.cool-popup .body input.login-button {
+  width: 55px;
+  border: none;
+  float: right;
+  margin-bottom: 0;
+}
+.cool-popup .body input.email-password-button {
+  width: 146px;
+  border: none;
+  float: right;
+  position: relative;
+  left: 4px;
+  margin-bottom: 0;
+}
+
+.cool-popup .body input {
+  border: 1px solid #777777;
+  font-size: 130%;
+}

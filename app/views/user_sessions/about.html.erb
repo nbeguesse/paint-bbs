@@ -1,0 +1,194 @@
+<style type="text/css">
+    #header {
+        height: 65px !important;
+    }
+
+    #header .bottom {
+        display: none;
+    }
+
+    #page {
+        width: 948px;
+    }
+
+    h1 {
+        background: #ccc url("/images/about/page-layout-head.jpg") no-repeat 0 0;
+        height: 33px;
+        padding: 0;
+        width: 100%;
+        overflow: hidden;
+        text-indent: -999em;
+    }
+
+    .content {
+        background: #d2d3d5 url(/images/about/page-layout.jpg) no-repeat -3px 100%;
+        padding: 0;
+        border-left:3px solid #293c4b;
+        border-right:3px solid #293c4b;
+         overflow:hidden;
+    }
+
+    .head {
+        background: #4a4a4a url(/images/about/page-layout-head.jpg) no-repeat 0 -33px;
+        height: 136px;
+        color: #fff;
+    }
+
+    .head p {
+        margin: 0;
+        padding: 13px 56px;
+        font-size: 17px;
+        line-height: 26px;
+    }
+
+    .head p span {
+        color: #ffff00;
+    }
+
+    .content .text {
+        padding: 20px 35px 0 51px;
+        overflow:hidden;
+        background: url(/images/about/page-layout-body.gif) repeat-x 0 0;
+        width: 856px;
+    }
+
+    .content .text h2 {
+        margin: 0;
+        padding: 0 0 13px;
+        font-size: 160%;
+        color: red;
+    }
+
+    .content .text h3 {
+        margin: 0 0 2px;
+        padding: 0;
+        font-size: 120%;
+        position:relative;
+    }
+    
+    .content .text h3 em{
+      position:absolute;
+      top:-10px;
+      left: -40px;
+      display:block;
+      overflow:hidden;
+      width:35px;
+      height:35px;
+      background: url(/images/about/page-num.gif);
+    }
+    .content .text h3 em.Num1{background-position:0 0;}
+    .content .text h3 em.Num2{background-position:0 -35px;}
+    .content .text h3 em.Num3{background-position:0 -70px;}
+    .content .text h3 em.Num4{background-position:0 -105px;}
+    .content .text h3 em.Num5{background-position:0 -140px;}
+
+    .content .text p {
+        font-size: 120%;
+        line-height: 20px;
+        margin: 0 0 14px;
+        padding: 0 0 10px;
+        border-bottom: 2px solid #aeafb0;
+        overflow:hidden;
+    }
+
+    .mission {
+        padding: 0 0 0 186px;
+    }
+
+    .content .text .mission h2 {
+        padding: 5px 0 10px;
+    }
+
+    .content .text .mission p {
+        border: none;
+        font-size: 160%;
+        line-height: 22px;
+    }
+    
+    .content-foot{
+      width: 100%;
+      overflow:hidden;
+      font-size:0;
+      height:9px;
+      background: #d9dadb url(/images/about/page-layout-foot.jpg) no-repeat 0 0;
+    }
+</style>
+
+<%= content_for :title, construct_title("About") %>
+<%= cache 'about' do %>
+  <div id="page">
+    <h1>Our Story</h1>
+
+    <div class="head">
+      <p>
+        <strong><span>Highlinesale.com</span></strong> was designed by dealers for dealers and their staff. Our
+        mission is to help you <strong>TURN</strong> and <strong>FIND</strong> highline inventory faster and more
+        efficiently. Our listings come from front line inventory in franchised dealerships all over the USA. Our
+        listing service is free and gives your dealership a second option to sell Highline vehicles nationwide at the
+        best price.
+      </p>
+    </div>
+    <div class="content">
+      <div class="text">
+        
+        <img src="/images/about/page-star.jpg" alt="" style="float:right;margin:0 0 30px 40px;">
+        
+        <h2>Our Competitive Advantages</h2>
+
+        <h3><em class="Num Num1"></em>5-Star Rating System</h3>
+
+        <p>
+          Every vehicle is checked for damage history and airbag deployment. Vehicles with bad histories cannot be
+          loaded to our site. If a vehicle has more than three panels painted or is a total repaint, the vehicle
+          cannot be loaded. We also have mileage standards. Vehicles from year <%=Time.now.year-9%> or newer cannot be loaded with
+          more than 100,000 miles.
+        </p>
+
+        <h3><em class="Num Num2"></em>Virtual Showroom</h3>
+
+        <p>
+          When sales people show this site to retail customers thru our showroom mode, our branding goes away and the
+          system displays the <strong>original factory Monroney label</strong>. By showing the retail customer the
+          original MSRP with the expensive factory options, they will be building value and selling from the top down
+          instead of bottom up.
+        </p>
+
+        <h3><em class="Num Num3"></em>Want List</h3>
+
+        <p>
+          Every dealership is always looking for vehicles. With this feature simply post what your dealership is
+          looking for and our system will e-mail you when those vehicles are located.
+        </p>
+
+        <h3><em class="Num Num4"></em>Comprehensive Pricing</h3>
+
+        <p>
+          Highlinesale’s pricing is the most comprehensive in the industry. Our site is the first to be linked to
+          <strong>Cars of Particular Interest</strong>. The “auction data” on our pricing drop-down is coming directly
+          from NADA Daily and its feeds from ADESA, MMR, ABC, ServNet and key independent physical auctions. We are
+          using Black Book Daily providing up to the minute pricing information.
+        </p>
+
+        <h3><em class="Num Num5"></em>Up-to-date Vehicle Recall Information</h3>
+
+        <p>
+          Use our recall link to investigate any recalls on vehicles that you are purchasing. In this way, you can
+          have these issues fixed by the manufacturer for free.
+        </p>
+
+        <div class="mission">
+          <h2>Our Mission</h2>
+
+          <p style="margin:0">
+            It is our goal to link reputable vehicles and reputable dealers, increasing profitability and convenience
+            for both buyers and sellers. We will continually strive to make Highlinesale.com the
+            <strong>go to</strong> site for quality highline inventory. <strong>Take the high road</strong> with
+            Highlinesale.com.
+          </p>
+          <br />
+        </div>
+      </div>
+    </div>
+    <div class="content-foot"></div>
+  </div>
+<% end %>
