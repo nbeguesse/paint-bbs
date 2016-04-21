@@ -1,0 +1,9 @@
+development:
+  adapter:   postgresql
+  database:  paint
+  username:  deploy
+  password:  35G27LWNEJ
+  host:      localhost
+  reconnect: true
+  port:      5432
+
