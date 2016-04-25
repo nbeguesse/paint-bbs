@@ -9,13 +9,14 @@ end
 gem 'pg'
 gem "settingslogic",          "= 2.0.6"
 
-gem "inherited_resources",    "= 1.3.1" #updated in Rails 3
+gem "inherited_resources",    "= 1.3.1" 
 gem "authlogic",              "= 3.2.0"
 
 gem 'jquery-rails'
 gem "paperclip",              "~> 2.7"
 gem 'will_paginate', "~>3.0"
 gem "bcrypt-ruby",            "= 3.0.1" #for password hashing
+#gem 'friendly_id'
 
 
 

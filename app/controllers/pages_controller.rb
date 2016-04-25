@@ -1,12 +1,12 @@
 
 class PagesController < ApplicationController
 
-
-
-    def home
-
-      render :action=>"home"
-
+    def faq
+      @active_link = "faq"
+      @board = Board.faq
+    end
+    def privacy
+      
     end
 
 

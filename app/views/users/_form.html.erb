@@ -1,25 +1,33 @@
 
 <div class="form-wrapper">
   <div class="form-inner-wrapper">
-    <%= form_for @user,:url => users_url(:secure => secure?) do |f| %>    
+    <%= form_for @user do |f| %>    
       <div class="field-list clear">
-        <div class="form-item field name required">
+        <div class="form-item field">
           <%=f.label :name, :class=>"title"%>
           <%=f.text_field :name, :class=>"field-element"%>        
         </div>
-        <div class="form-item field email required">
+        <div class="form-item field">
           <%=f.label :email, :class=>"title"%>
           <%=f.text_field :email, :class=>"field-element"%>
         </div>
         <%if @user.new_record?%>
-          <div class="form-item field password required">
+          <div class="form-item field">
             <%=f.label :password, :class=>"title"%>
             <%=f.password_field :password, :class=>"field-element"%>
           </div>
+        <%else%>
+          <div class="form-item field">
+            <%=f.label :avatar, :class=>"title"%>
+            <%=f.file_field :avatar, :class=>"field-element"%>
+            <%if @user.avatar.present?%>
+              <%=image_tag @user.avatar.url(:small), :class=>"avatar"%>
+            <%end%>
+          </div>        
         <%end%>
       </div>
       <div class="form-button-wrapper form-button-wrapper--align-left">
-        <input type="submit" value="Submit" class="button sqs-system-button sqs-editable-button">
+        <input type="submit" value="<%=@user.new_record? ? "Join" : "Update"%>" class="button sqs-system-button sqs-editable-button">
       </div>
         
     <%end%>

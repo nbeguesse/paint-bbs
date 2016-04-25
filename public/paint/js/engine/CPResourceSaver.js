@@ -108,7 +108,7 @@ export default function CPResourceSaver(options) {
         var
             serializeLayers;
 
-        if (options.artwork.isSimpleDrawing()) {
+        if (false) {
             serializeLayers = Promise.resolve(null);
         } else {
             serializeLayers = (new CPChibiFile()).serialize(options.artwork);

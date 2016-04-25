@@ -1,0 +1,84 @@
+  <article class="hentry post-type-text article-index-4">
+    <!--POST HEADER-->
+      <header>
+        <h1 class="entry-title" itemprop="headline">
+            <%=link_to post.title, share_path(post.slug)%>
+          
+        </h1>
+        <div class="meta">
+          <div style="display:none"><time class="published dt-published" datetime="<%=post.created_at.strftime("%Y-%m-%d")%>" itemprop="datePublished" pubdate=""><%=distance_of_time_in_words Time.now, post.created_at%> ago</time></div>
+          <%if post.paint_time && post.paint_time > 0%>
+            <span class=""><i>Paint time: <%=distance_of_time_in_words post.paint_time%></i></span>
+            <span class="author"><b><%=post.creator%></b></span>
+          <%else%>
+            <span class="author">posted by <b><%=post.creator%></b></span>
+          <%end%>
+          
+        </div>
+      </header>
+
+      <%if post.image.present?%>
+        <%=render :partial=>"posts/image",:locals=>{:src=>post.image.url}%>
+      <%end%>
+      <div class="body entry-content" style="text-align:center">
+        <div style="display:inline-block; text-align:left">
+
+          <figure>
+            <%=render :partial=>"posts/avatar", :locals=>{:user=>post.user}%>
+            <figcaption><%=post.creator%></figcaption>
+          </figure>
+          <%=post.message%>
+          <div class="small">
+            <time class="published dt-published" datetime="<%=post.created_at.strftime("%Y-%m-%d")%>" itemprop="datePublished" pubdate=""><%=distance_of_time_in_words Time.now, post.created_at%> ago</time>
+            <%if logged_in? && current_user.may_edit_post?(post)%>    
+              <%=link_to "Edit", edit_post_path(post)%>
+              <%if post.image.present?%>
+                &bullet; <%=link_to "Continue",doodle_path(post)%>
+              <%end%>
+                &bullet; <%= link_to "Delete", post_path(post), :method => :delete, :confirm=>"Are you sure you want to delete this entire post?" %>
+                <%if logged_in? && current_user.mgt?%>
+                 <br/><i><%=post.ip_address%></i>
+                <%end%>
+            <%end%>
+          </div>
+
+         
+            <!-- note: post.comments breaks when comments get deleted. -->
+            <%post.reload.comments.each do |comment|%>
+              <%=render :partial=>"comments/comment", :locals=>{:comment=>comment}%>
+            <%end%>
+        
+
+        </div>
+      </div>
+
+    <%unless @comment%><!-- no need to put the link to comment if they're already doing it -->
+    <footer class="clear">
+      <div class="meta">
+        <div class="second meta-row">
+          <span class="sqs-simple-like">
+            <%=link_to "Comment", new_comment_path(:post_id=>post)%> &bullet; <%=link_to "Share", "#", :class=>"share", "data-share"=>"share#{post.id}"%>
+          </span>
+
+
+        </div>
+
+      </div>
+    </footer>
+    <%end%>
+  
+    <%=render :partial=>'common/cool_popup_start', :locals=>{:table_class=>"share-form hidden", :id=>"share#{post.id}"}%>
+      <div class="center-me">Where to?</div>
+      <div class="center-me">
+      <%if post.image.present?%>
+        <%=image_tag post.image.url(:medium), :class=>"cute"%>
+      <%end%>
+      →
+      <%["twitter","facebook","tumblr"].each do |soc|%>
+        <%=link_to image_tag("social-#{soc}.png", :class=>"icon"), Settings.share[soc].gsub("{url}", "http://#{Settings.host}#{share_path(post.slug)}").gsub("{title}",post.title).gsub("{desc}", post.message)%>
+      <%end%>
+      </div>
+      
+    <%=render :partial=>'common/cool_popup_end'%>
+
+  </article>

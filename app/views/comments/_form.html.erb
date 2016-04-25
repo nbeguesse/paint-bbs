@@ -1,0 +1,27 @@
+<div class="form-wrapper">
+  <div class="form-inner-wrapper">
+    <%= form_for(@comment) do |f| %>
+      <div class="field-list clear">
+        <input type="hidden" name="post_id" value="<%=@comment.post.id%>">
+        <div class="form-item field">
+          <%= f.label :message, :class=>"title" %><br />
+          <%= f.text_area :message, :class=>"field-element", :rows=>nil %>
+        </div>
+        <%if @comment.temp_user?%>
+          <div class="form-item field">
+            <%= f.label :username, :class=>"title" %><br />
+            <%= f.text_field :username, :class=>"field-element" %>
+          </div>
+          <div class="form-item field" id="blank-field">
+            <%= f.label :blank_field, "Leave this field blank", :class=>"title" %><br />
+            <%= f.text_field :blank_field, :class=>"field-element" %>
+          </div>          
+        <%end%>
+          
+        <div class="submit-holder">
+          <input type="submit" value="<%=@comment.new_record? ? "Reply" : "Update"%>" class="button sqs-system-button sqs-editable-button"> <%=render :partial=>"posts/avatar", :locals=>{:user=>current_user}%>
+        </div>
+      </div>
+    <% end %>
+  </div>
+</div>

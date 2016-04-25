@@ -1,0 +1,10 @@
+<div class="article-list hfeed">
+  <%if params[:page]%>
+    <%=will_paginate @posts%>
+  <%end%>
+  <%@posts.each do |post|%>
+    <%=render :partial=>"posts/post", :locals=>{:post=>post}%>
+  <%end%>
+  <%=will_paginate @posts%>
+
+</div>

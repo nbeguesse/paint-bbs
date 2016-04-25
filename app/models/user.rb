@@ -1,16 +1,17 @@
 class User < ActiveRecord::Base
-  attr_accessible :email, :name, :password
+  attr_accessible :email, :name, :password, :avatar
   validates_presence_of :name
   validates_presence_of :email
   validates_uniqueness_of :email
+  validates_uniqueness_of :name
 
   PATH = '/avatars/:id/:style.:extension'
   opts =
         {
           :path => ':rails_root/public' + PATH,
           :url => PATH,
-          :default_url => '/images/missing-car/:style.jpg',
-          :styles => { :small => "x50", :medium => "x150" }
+          :default_url => '/avatars/missing/:style.jpg',
+          :styles => { :small => "50x50#", :medium => "120x120#" }
           }
   has_attached_file :avatar, opts
 
@@ -21,4 +22,42 @@ class User < ActiveRecord::Base
     config.crypto_provider = Authlogic::CryptoProviders::BCrypt
     config.transition_from_crypto_providers = Authlogic::CryptoProviders::Sha512
   end
+
+  def may_edit_post? post
+    mgt? || post.user_id == self.id.to_s
+  end
+
+  def may_edit_comment? comment
+    mgt? || comment.user_id == self.id.to_s
+  end
+
+  def may_delete_comment? comment
+    mgt? 
+  end
+
+  def may_login?
+    !self.blocked
+  end
+
+  def posts
+    Post.where(:user_id=>self.id.to_s)
+  end 
+
+  def work_in_progress
+    posts.where(:in_progress=>true).first
+  end
+
+   def deliver_password_reset_instructions!
+     reset_perishable_token!
+     Mailer.password_reset_instructions( self.email, self.perishable_token).deliver!
+   end
+
+   def admin?
+    (role_name == "admin")
+   end
+
+   def mgt?
+    admin? || role_name == "mgt"
+   end
+
 end

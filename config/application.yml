@@ -1,10 +1,21 @@
 # config/application.yml
 defaults: &defaults
   host: localhost:3000
+  title: draw.
+  description: Just draw something!
+  canvas:
+    default_width: 400
+    default_height: 400
+    max_width: 800
+    max_height: 600
+  min_paint_time: 10 #in seconds
+  share:
+    facebook: https://www.facebook.com/sharer/sharer.php?u={url}
+    twitter: https://twitter.com/share?url={url}&text={title}
+    tumblr: https://www.tumblr.com/widgets/share/tool?canonicalUrl={url}&title={title}&caption={desc}
 
 development:
   <<: *defaults
-  neat_setting: 800
 
 test:
   <<: *defaults
@@ -12,3 +23,4 @@ test:
 production:
   <<: *defaults
   host: draw.angelboy.com
+  min_paint_time: 900

@@ -1,25 +1,46 @@
-<%= form_for(@post) do |f| %>
-  <% if @post.errors.any? %>
-    <div id="error_explanation">
-      <h2><%= pluralize(@post.errors.count, "error") %> prohibited this post from being saved:</h2>
-
-      <ul>
-      <% @post.errors.full_messages.each do |msg| %>
-        <li><%= msg %></li>
-      <% end %>
-      </ul>
-    </div>
-  <% end %>
-
-  <div class="field">
-    <%= f.label :title %><br />
-    <%= f.text_field :title %>
+<%if @post.id && @post.image.present?%>
+  <%=render :partial=>"image", :locals=>{:src=>@post.image.url}%>
+<%end%>
+<div class="form-wrapper">
+  <div class="form-inner-wrapper">
+    <%= form_for [@board, @post] do |f| %>
+      <div class="field-list clear">
+        <div class="form-item field">
+          <%= f.label :title, :class=>"title" %>
+          <%= f.text_field :title, :class=>"field-element" %>
+        </div>
+        <div class="form-item field">
+          <%= f.label :message, :class=>"title" %>
+          <%= f.text_area :message, :class=>"field-element", :rows=>nil %>
+        </div>
+        <%if !@post.image.present?%>
+          <div class="form-item field">
+            <%=f.label :image, :class=>"title", :value=>"Upload Image"%>
+            <%=f.file_field :image, :class=>"field-element"%>
+          </div>
+        <%end%>
+        <%if @post.temp_user?%>
+          <div class="form-item field">
+            <%= f.label :username, :class=>"title" %>
+            <%= f.text_field :username, :class=>"field-element" %>
+          </div>
+        <%end%>
+        <%if @post.new_record? && @post.is_upload?%>
+          <div class="option"><label><input id="i-made-this" type="checkbox" value="1" name="uploaded_art"> I made this image</label></div>
+        <%end%>
+        <%if @board.faq?%>
+          <div class="form-item field">
+            <select name="post[faq_category]">
+              <option>help</option>
+              <option>howto</option>
+              <option>rules</option>
+            </select>
+          </div>          
+        <%end%>
+        <div class="submit-holder">
+          <input type="submit" value="<%=@post.already_finished? ? "Update" : "Post"%>" class="button sqs-system-button sqs-editable-button">  <%=render :partial=>"posts/avatar", :locals=>{:user=>current_user}%>
+        </div>
+      </div>
+    <% end %>
   </div>
-  <div class="field">
-    <%= f.label :message %><br />
-    <%= f.text_area :message %>
-  </div>
-  <div class="actions">
-    <%= f.submit %>
-  </div>
-<% end %>
+</div>

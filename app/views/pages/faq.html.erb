@@ -1,0 +1,13 @@
+<%@board.posts.pluck("faq_category").each do |cat|%>
+    <%=cat%>
+    <%@board.posts.where(:faq_category=>cat).each do |post|%>
+        <%=post.title%>
+    <%end%>
+<%end%>
+
+<%@board.posts.pluck("faq_category").each do |cat|%>
+
+    <%@board.posts.where(:faq_category=>cat).each do |post|%>
+        <%=render :partial=>"posts/post", :locals=>{:post=>post}%>
+    <%end%>
+<%end%>

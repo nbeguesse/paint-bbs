@@ -1,0 +1,5 @@
+<%if user%>
+    <%if user.avatar.present?%>
+        <%=image_tag user.avatar.url(:small), :class=>"avatar"%>
+    <%end%>
+<%end%>

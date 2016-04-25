@@ -1,7 +1,7 @@
 
 <% @user_session ||= UserSession.new%>
 <% @user_session.remember_me = true%>
-<%=render :partial=>'common/cool_popup_start', :locals=>{:table_class=>"login-form hidden", :title=>"", :right=>'<a href="javascript:void(0)" class="link-to-reset-password">Forgot password?</a></div>'}%>
+<%=render :partial=>'common/cool_popup_start', :locals=>{:table_class=>"login-form hidden", :title=>"", :right=>'<a href="javascript:void(0)" class="link-to-reset-password">Forgot password?</a>'}%>
     <%
       #url causes missing-host errors sometimes!
       url = user_sessions_url(:secure => secure?) #rescue "https://#{Settings.host}/user_sessions"
@@ -14,13 +14,11 @@
         <%= f.text_field :email, :size => nil, :style => 'width: 210px;' %>
         <%= f.label :password %>
         <%= f.password_field :password, :size => nil, :style => 'width: 210px;' %>
-        <%= f.check_box :remember_me, :style => 'float: left; margin: 0;' %>
-        <%= f.label :remember_me, nil, :style => 'float: left; margin: 1px 0 0 6px;' %>
-        <%#= f.submit 'Login', :class => 'login-button button-with-hover' %>
-        <div class="form-button-wrapper form-button-wrapper--align-right">
+        <%= f.hidden_field :remember_me, :value=>true%>
+        <div style="text-align:center;">
           <input type="submit" class="button sqs-system-button sqs-editable-button" value="Login">
         </div>
-        <%= link_to "Set up a new account", new_user_path, :style => 'clear: both; display: block; text-align: center; padding-top: 0.8em;' %>
+        <a href="javascript:void(0)" class="link-to-reset-password center-me">forgot password?</a>
       <%end%>
 
 <%=render :partial=>'common/cool_popup_end'%>
@@ -34,9 +32,12 @@
     %>
     <%= form_tag url  do %>
         <label style="margin-top: 0;">Email:</label>
-        <%= text_field_tag "email" %>
-        <%= link_to "BACK","javascript:void(0);",:class => "back-to-login"%>
-        <%= submit_tag '', :class => 'email-password-button button-with-hover' %>
+         <input type="text" name="email" id="email" style="width:210px">
+        
+         <div style="text-align:center;">
+          <input type="submit" class="button sqs-system-button sqs-editable-button" value="Submit">
+        </div>
+        <%= link_to "back","javascript:void(0);", :class => "back-to-login center-me"%>
     <% end %>
 <%=render :partial=>'common/cool_popup_end'%>
 <%if @show_popup%>

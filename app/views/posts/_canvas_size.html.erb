@@ -1,0 +1,11 @@
+
+<%=render :partial=>'common/cool_popup_start', :locals=>{:table_class=>"canvas-size-form hidden", :title=>"How big?",:right=>""}%>
+    <%= form_tag doodle_path, :method=>:get %>
+        <div style="text-align:center;">
+          <div class="center-me">How big?</div>
+          <%=text_field_tag :width, Settings.canvas.default_width, :size=>3, :style=>"display:table-cell"%> x
+          <%=text_field_tag :height, Settings.canvas.default_height, :size=>3, :style=>"display:table-cell"%>
+          <input type="submit" class="button sqs-system-button sqs-editable-button" value="Start">
+        </div>
+    </form>
+<%=render :partial=>'common/cool_popup_end'%>

@@ -1,23 +1,22 @@
-<%= content_for :title, construct_title(I18n.t("page_titles.password_reset")) %>
 <div id="page" class="login">
   <div class="section full-section">
-    <h2>Change My Password</h2>
-
-    <div class="content">
-      <%= form_for @user, :url => password_reset_url(:secure => secure?), :method => :put do |f| %>
-          <%= f.error_messages %>
-          <%= f.label :password %>
-          <br/>
-          <%= f.password_field :password %>
-          <br/>
-          <br/>
-          <%= f.label :password_confirmation %>
-          <br/>
-          <%= f.password_field :password_confirmation %>
-          <br/>
-          <br/>
-          <%= f.submit "Update my password and log me in" %>
-      <% end %>
+    <div class="form-wrapper">
+      <div class="form-inner-wrapper">
+        <div class="content">
+          <%= form_for @user, :url => password_reset_url(:secure => secure?), :method => :put do |f| %>
+            <div class="field-list clear">
+              <div class="form-item field">
+                <%= f.label :password, "New Password", :class=>"title" %>
+                <%= f.password_field :password, :class=>"field-element" %>
+              </div>
+              <div class="form-button-wrapper form-button-wrapper--align-left">
+                <input type="submit" value="Update password and log in" class="button sqs-system-button sqs-editable-button">
+              </div>
+            </div>
+          <% end %>
+        </div>
+      </div>
     </div>
+
   </div>
 </div>

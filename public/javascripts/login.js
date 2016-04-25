@@ -17,8 +17,9 @@
     $('.loginable').click(function(e) {
       e.stopPropagation();
 
+      $('.cool-popup').addClass('hidden');
       $('.cool-popup.login-form').removeClass('hidden');
-      $('.cool-popup.forgot-password-form').addClass('hidden');
+
       popups.center($('.cool-popup.login-form')[0])
       
       $('#user_session_email').get(0).focus();
@@ -30,8 +31,7 @@
       var loginLink = $('#header .top a.log-in').addClass("hidden");
 
       $("body").click(function() {
-        $('.cool-popup.login-form').addClass('hidden');
-        $('.cool-popup.forgot-password-form').addClass('hidden');
+        $('.cool-popup').addClass('hidden');
         $(this).unbind('click');
         loginLink.removeClass("hidden");
       });

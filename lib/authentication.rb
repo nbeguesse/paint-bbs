@@ -1,6 +1,6 @@
 module Authentication
   def self.included(controller)
-    controller.send :helper_method, :current_user_session, :current_user, :logged_in?, :other_user_as_current, :set_other_user_as_current, :other_user_as_current?, :current_actual_user
+    controller.send :helper_method, :current_user_session, :current_user, :logged_in?, :current_actual_user
 
   end
 
@@ -16,11 +16,9 @@ module Authentication
   def current_user
     return @current_user if defined?(@current_user)
     return unless current_user_session.present?
-    if other_user_as_current?
-      @current_user = User.find other_user_as_current
-    else
-      @current_user = current_user_session.user
-    end
+
+    @current_user = current_user_session.user
+
     @current_user
   end
 
@@ -31,48 +29,26 @@ module Authentication
 
 
   def require_user
-    Rails.logger.info "in require user"
-    if token = params[:single_access_token]
-      Rails.logger.info "found token"
-      if user = User.find_by_single_access_token(token)
-        Rails.logger.info "found user"
-        @current_user = user
-        @current_actual_user = user
-      end
-    end
     unless current_user
-      respond_to do |format|
-        format.html{
-          flash[:error] = "Please login or sign up to continue."
-          #session[:return_to] = request.fullpath
-          redirect_to new_user_url
-        }
-        format.json{
-          #for mobile app
-          render :json=>{:errors=>"INVALID_LOGIN"}.to_json
-        }
-      end
+
+      flash[:error] = "Please login or sign up to continue."
+      redirect_to new_user_url
+
     end
   end
 
-
-
-  def set_other_user_as_current(user_id)
-    session[:other_user_id] = user_id
+  def require_admin
+    unless (current_user && current_user.admin?)
+      flash[:error] = "Please login as an admin to do that. Role: #{current_user.role_name} id: #{current_user.id}"
+      redirect_to new_user_url
+    end
   end
 
-  def other_user_as_current
-    session[:other_user_id]
-  end
-
-  def other_user_as_current?
-    session[:other_user_id].present?
-  end
 
   def require_no_user
     if current_user
       store_location
-      flash[:error] = "Please logout first."
+      flash[:error] = "Please logout first. The link is at the bottom of the page."
       redirect_to root_url
       return false
     end
@@ -93,6 +69,34 @@ module Authentication
     tag_options = {}
     options.first.each { |k,v| tag_options[k] = v } unless options.empty?
     redirect_to(return_to || request.headers["Referer"] || default, tag_options)
+  end
+
+
+  def may_edit_comment
+    if @comment
+      unless current_user && current_user.may_edit_comment?(@comment)
+        flash[:error] = "Please login as a moderator to do that."
+        redirect_to new_user_url
+      end
+    end
+  end
+
+  def may_delete_comment
+    if @comment
+      unless current_user && current_user.may_delete_comment?(@comment)
+        flash[:error] = "Please login as a moderator to do that."
+        redirect_to new_user_url
+      end
+    end
+  end
+
+  def may_edit_post
+    if @post
+      unless session_obj.may_edit_post?(@post)
+        flash[:error] = "Please login as a moderator to do that."
+        redirect_to new_user_url
+      end
+    end
   end
 end
 

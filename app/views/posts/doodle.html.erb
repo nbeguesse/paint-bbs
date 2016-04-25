@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title><%=Settings.title%></title>
+
+<script type="text/javascript">
+	/* Check for native pointer event support before PEP adds its polyfill */
+	if (window.PointerEvent) {
+		window.hasNativePointerEvents = true;
+	}
+</script>
+
+<script src="/paint/lib/raf.js"></script>
+<script src="/paint/lib/es6-promise.min.js"></script>
+<script src="/paint/lib/jquery-2.2.1.min.js"></script>
+<script src="/paint/lib/pep.min.js"></script>
+<script src="/paint/lib/pako.min.js"></script>
+<script src="/paint/lib/keymaster.js"></script>
+<script src="/paint/lib/EventEmitter.min.js"></script>
+<script src="/paint/lib/FileSaver.min.js"></script>
+<script src="/paint/lib/bootstrap.min.js"></script>
+
+<script src="/paint/resources/js/chickenpaint.js"></script>
+<script>
+  $(document).ready(function() {
+    new ChickenPaint({
+        uiElem: document.getElementById("chickenpaint-parent"),
+        <%@paint.each do |key, value|%>
+          <%next if value.nil?%>
+          <%=key%>: <%=value.is_a?(String) ? "'#{value}'".html_safe : value%>,
+        <%end%>
+        allowSave: true,
+        resourcesRoot: "/paint/resources/",
+
+    });
+});
+</script>
+
+<link rel="stylesheet" type="text/css" href="/paint/resources/css/chickenpaint.css">
+</head>
+<body>
+	<div id="chickenpaint-parent"></div>
+    <p></p>
+    <small>Based on ChickenPaint</small>
+</body>
+</html>
