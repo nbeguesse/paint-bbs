@@ -6,8 +6,10 @@ log/*
 tmp/*
 .idea
 *.iml
-public/photos
-public/files
+public/avatars
+public/anim
+public/posts
+public/palettes
 db/sphinx/*
 config/*.sphinx.conf
 config/database.yml
