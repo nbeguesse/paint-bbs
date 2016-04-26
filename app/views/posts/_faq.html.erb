@@ -1,0 +1,16 @@
+
+    <div><b><%=post.title%></b></div>
+    <div>
+      <%=post.message%>
+     
+        
+        <%if logged_in? && current_user.admin?%>    
+         <div class="small">
+          <%=link_to "Edit", edit_post_path(post)%>
+          
+            &bullet; <%= link_to "Delete", post_path(post), :method => :delete, :confirm=>"Are you sure you want to delete this entire post?" %>
+         </div>
+        <%end%>
+     
+
+      </div>

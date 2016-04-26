@@ -33,7 +33,7 @@ var
                     shortcut: "ctrl+s"
                 },
                 {
-                    name: "Save Oekaki",
+                    name: "Save image online",
                     action: "CPSend",
                     mnemonic: "S",
                     shortcut: "ctrl+s"
@@ -376,7 +376,7 @@ export default function CPMainMenu(controller, mainGUI) {
             '<nav class="navbar navbar-default">'
                 + '<div class="container-fluid">'
                     + '<div class="navbar-header">'
-                        + '<a class="navbar-brand" href="#">ChickenPaint</a>'
+                        + '<a class="navbar-brand" href="#">draw.</a>'
                     + '</div>'
                     + '<ul class="nav navbar-nav">'
                     + '</ul>'

@@ -1,6 +1,6 @@
       <ul>
         <li class="page-collection <%="active-link" if @active_link == "doodle"%>">
-            <%=link_to "Doodle.", doodle_path, :class=>"set-canvas-size"%>
+            <%=link_to "Doodle.", doodle_path, :class=>(session_obj.work_in_progress ? "" : "set-canvas-size")%>
         </li>
         <%if logged_in?%>
           <li class="page-collection <%="active-link" if @active_link == "upload"%>">

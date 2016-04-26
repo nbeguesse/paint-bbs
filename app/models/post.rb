@@ -1,5 +1,5 @@
 class Post < ActiveRecord::Base
-  attr_accessible :message, :title, :paint_time, :in_progress, :username, :image, :is_upload, :uploaded_art
+  attr_accessible :message, :title, :paint_time, :in_progress, :username, :image, :is_upload, :uploaded_art, :faq_category
   belongs_to :board
   validates_presence_of [:board,:user_id,:user_type]
   validates_presence_of [:title, :message], :unless=>:in_progress?
@@ -71,6 +71,10 @@ class Post < ActiveRecord::Base
     if slug.blank? && title.present?
       self.slug = "#{id} #{title}".parameterize
     end
+  end
+
+  def self.faq_keys
+    {"help"=>"Technical Help", "howto"=>"How to Do Everything", "rules"=>"The Rules and Rule-breaking"}
   end
 
 protected

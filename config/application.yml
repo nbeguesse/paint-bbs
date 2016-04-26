@@ -2,7 +2,7 @@
 defaults: &defaults
   host: localhost:3000
   title: draw.
-  description: Just draw something!
+  description: A place to inspire your artistic creativity. Draw online and share with your friends. Absolutely free.
   canvas:
     default_width: 400
     default_height: 400

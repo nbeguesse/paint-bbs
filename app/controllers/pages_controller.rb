@@ -3,7 +3,7 @@ class PagesController < ApplicationController
 
     def faq
       @active_link = "faq"
-      @board = Board.faq
+      @faq = Board.faq
     end
     def privacy
       

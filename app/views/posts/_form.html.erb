@@ -31,9 +31,9 @@
         <%if @board.faq?%>
           <div class="form-item field">
             <select name="post[faq_category]">
-              <option>help</option>
-              <option>howto</option>
-              <option>rules</option>
+              <%Post.faq_keys.keys.each do |k|%>
+                <option><%=k%></option>
+              <%end%>
             </select>
           </div>          
         <%end%>

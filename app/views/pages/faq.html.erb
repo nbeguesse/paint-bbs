@@ -1,13 +1,22 @@
-<%@board.posts.pluck("faq_category").each do |cat|%>
-    <%=cat%>
-    <%@board.posts.where(:faq_category=>cat).each do |post|%>
-        <%=post.title%>
+<article>
+<h1 class="entry-title">faq.</h1>
+<%@faq.posts.pluck("faq_category").uniq.each do |cat|%>
+    <p>
+      <div>
+        <b><%=Post.faq_keys[cat]%></b>
+      </div>
+    <%@faq.posts.where(:faq_category=>cat).each do |post|%>
+        <div><%=link_to post.title, "##{post.slug}"%></div>
     <%end%>
+  </p>
 <%end%>
 
-<%@board.posts.pluck("faq_category").each do |cat|%>
-
-    <%@board.posts.where(:faq_category=>cat).each do |post|%>
-        <%=render :partial=>"posts/post", :locals=>{:post=>post}%>
+<%@faq.posts.pluck("faq_category").uniq.each do |cat|%>
+    <p><h1 class="entry-title"><%=Post.faq_keys[cat]%></h1></p>
+    <%@faq.posts.where(:faq_category=>cat).each do |post|%>
+        <p id="<%=post.slug%>">
+          <%=render :partial=>"posts/faq", :locals=>{:post=>post}%>
+        </p>
     <%end%>
 <%end%>
+</article>
