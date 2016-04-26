@@ -6,13 +6,11 @@ class User < ActiveRecord::Base
   validates_uniqueness_of :name
 
   PATH = '/avatars/:id/:style.:extension'
-  opts =
-        {
-          :path => ':rails_root/public' + PATH,
-          :url => PATH,
-          :default_url => '/avatars/missing/:style.jpg',
-          :styles => { :small => "50x50#", :medium => "120x120#" }
-          }
+  opts =  { :path => PATH,
+            :url => PATH,
+            :bucket=>Settings.storage_bucket,
+          }.merge(Settings.storage_settings)
+
   has_attached_file :avatar, opts
 
   acts_as_authentic do |config|
