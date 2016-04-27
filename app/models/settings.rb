@@ -4,8 +4,15 @@ class Settings < Settingslogic
 
   def self.storage_settings
     #convert Settings.storage.s3 keys to symbols
-    system = Settings.storage_system
-    Settings.storage[system].each_with_object({}){|(k,v), h| h[k.to_sym] = v}.merge({:styles=>Settings.storage.styles})
+    system = :s3
+    Settings.storage[system].each_with_object({}){|(k,v), h| h[k.to_sym] = v}
+        .merge({:styles=>Settings.storage.styles})
+        .merge Settings.s3_credentials
+  end
+
+  def self.s3_credentials
+    {:s3_credentials=>{:access_key_id   => ENV['S3_KEY'],
+     :secret_access_key => ENV['S3_SECRET']}}
   end
 
 end

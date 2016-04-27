@@ -16,9 +16,6 @@ defaults: &defaults
   storage:
     s3:
       storage: :s3
-      s3_credentials:
-        access_key_id: AKIAJMCXL7Q35ABKBRJA
-        secret_access_key: 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
       s3_options:
         port: 80
       s3_protocol: http
@@ -29,12 +26,10 @@ defaults: &defaults
       small: "50x50#"
       medium: "120x120#"
   storage_bucket: bbs-dev
-  storage_system: :s3
 
 
 development:
   <<: *defaults
-  # storage_system: filesystem
 
 test:
   <<: *defaults
