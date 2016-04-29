@@ -45,10 +45,6 @@ class UsersController < ApplicationController
     end
   end
 
-  def index
-    @users = User.paginate({:page=>1})
-  end
-
 
   def change_password
     @user = User.find params[:id]

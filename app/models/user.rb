@@ -6,7 +6,7 @@ class User < ActiveRecord::Base
   validates_uniqueness_of :name
 
   PATH = '/avatars/:id/:style.:extension'
-  opts =  { :path => PATH,
+  opts =  { :path => ':rails_root/public' +PATH,
             :url => PATH,
             :bucket=>Settings.storage_bucket,
           }.merge(Settings.storage_settings)
@@ -19,6 +19,11 @@ class User < ActiveRecord::Base
     config.validates_length_of_password_confirmation_field_options :minimum => 0, :if => :require_password?
     config.crypto_provider = Authlogic::CryptoProviders::BCrypt
     config.transition_from_crypto_providers = Authlogic::CryptoProviders::Sha512
+  end
+
+  def may_continue_post? post
+    #only the artist can continue posts because the url's get weird when mgts do it
+    admin? || post.user_id == self.id.to_s
   end
 
   def may_edit_post? post

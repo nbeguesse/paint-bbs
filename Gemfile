@@ -18,6 +18,12 @@ gem 'will_paginate', "~>3.0"
 gem "bcrypt-ruby",            "= 3.0.1" #for password hashing
 gem 'test-unit'
 gem 'aws-sdk', '< 2.0'
+gem "rspec",                  "=2.11.0"          
+gem "rspec-rails",            "=2.11.0" 
+gem 'simplecov', :require => false, :group => :test 
+gem 'simplecov-rcov' 
+gem "factory_girl_rails",     "=4.2.1" 
+gem "activeadmin",            "=0.5.1"
 
 
 

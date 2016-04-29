@@ -17,7 +17,7 @@ Paint::Application.routes.draw do
   end
 
 
-  resources :users
+  resources :users, :except=>[:index, :destroy]
 
 
   resources :topics

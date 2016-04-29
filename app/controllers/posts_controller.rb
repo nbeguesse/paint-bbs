@@ -128,9 +128,9 @@ private
 
   def postUrl
     if @post
-      if session_obj.id.to_s == @post.user_id #i.e. start a new post if continuing someone else's work
+      #if session_obj.id.to_s == @post.user_id #i.e. start a new post if continuing someone else's work
         return edit_post_path(@post)
-      end
+      #end
     end
     return new_post_path
 

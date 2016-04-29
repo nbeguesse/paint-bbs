@@ -16,18 +16,18 @@ class Post < ActiveRecord::Base
   ANIM_PATH = '/anim/:board_id/:id.chi' 
   PALETTE_PATH = '/palettes/:board_id/:id.aco'
 
-  has_attached_file :image, { :path => IMG_PATH,
+  has_attached_file :image, { :path => ':rails_root/public' +IMG_PATH,
             :url => IMG_PATH,
             :bucket=>Settings.storage_bucket,
           }.merge(Settings.storage_settings)
-  has_attached_file :anim, { :path => ANIM_PATH,
+  has_attached_file :anim, { :path => ':rails_root/public' +ANIM_PATH,
             :url => ANIM_PATH,
             :bucket=>Settings.storage_bucket,
-          }.merge(Settings.storage_settings)
-  has_attached_file :palette, { :path => PALETTE_PATH,
+          }.merge(Settings.storage_settings(false))
+  has_attached_file :palette, { :path => ':rails_root/public' +PALETTE_PATH,
             :url => PALETTE_PATH,
             :bucket=>Settings.storage_bucket,
-          }.merge(Settings.storage_settings)
+          }.merge(Settings.storage_settings(false))
   def already_finished?
     id && !in_progress?
   end
