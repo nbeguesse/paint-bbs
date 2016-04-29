@@ -1,0 +1,14 @@
+beta:
+  adapter:   postgresql
+  database:  'paint_test'
+  username:  'deploy'
+  password:  'M7Tx3ci8nw'
+  host:      'ec2-54-157-224-70.compute-1.amazonaws.com'
+  reconnect: true
+test:
+  adapter:   postgresql
+  database:  'paint_test'
+  username:  'deploy'
+  password:  'M7Tx3ci8nw'
+  host:      'ec2-54-157-224-70.compute-1.amazonaws.com'
+  reconnect: true
