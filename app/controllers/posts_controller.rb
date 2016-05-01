@@ -32,6 +32,7 @@ class PostsController < InheritedResources::Base
 
     #To reach, click on "Save" in ChickenPaint
     def save #always post
+      #TODO: don't let people overwrite others' posts by changing the URL
       @post ||= generate_post(@user, {
         :paint_time=>0, 
         :in_progress=>true})
@@ -113,24 +114,22 @@ private
 
   def saveUrl
     params = {:started_at=>Time.now.to_i}
-    if @post 
-        if @post.is_upload?
-          #i.e. continuing a static image
-          params.except! :started_at
-        end
-        if @post.id
-          #i.e. editing a finished post
-          params[:id]=@post.id
-        end
+    if @post
+      if @post.is_upload?
+        #i.e. continuing a static image
+        params.except! :started_at
+      end
+      if @post.id && params[:new_slot].blank?
+        #i.e. editing a finished post
+        params[:id]=@post.id
+      end
     end
-    return save_board_posts_path+"?"+params.to_param
+    return save_board_posts_path(params)
   end
 
   def postUrl
-    if @post
-      #if session_obj.id.to_s == @post.user_id #i.e. start a new post if continuing someone else's work
-        return edit_post_path(@post)
-      #end
+    if @post && params[:new_slot].blank?
+      return edit_post_path(@post)
     end
     return new_post_path
 
