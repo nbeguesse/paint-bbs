@@ -1,12 +1,6 @@
       <ul>
-        <%
-        klass = ""
-        if logged_in? && !current_user.work_in_progress
-          klass = "set-canvas-size"
-        end
-        %>
         <li class="page-collection <%="active-link" if @active_link == "doodle"%>">
-            <%=link_to "Doodle.", doodle_path, :class=>"doodle-link "+klass%>
+            <%=link_to "Doodle.", doodle_path, :class=>"doodle-link "+set_canvas_size_class%>
         </li>
         <%if logged_in?%>
           <li class="page-collection <%="active-link" if @active_link == "upload"%>">

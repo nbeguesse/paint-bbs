@@ -36,6 +36,6 @@ test:
 
 production:
   <<: *defaults
-  host: draw.angelboy.com
+  host: doodle.angelboy.com
   min_paint_time: 900
   storage_bucket: bbs-prod

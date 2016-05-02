@@ -3,7 +3,7 @@ class Post < ActiveRecord::Base
   belongs_to :board
   validates_presence_of [:board,:user_id,:user_type]
   validates_presence_of [:title, :message], :unless=>:in_progress?
-  validates_length_of :message, :minimum=>20, :unless=>:in_progress?, :too_short=>"is too short. Write more!"
+  #validates_length_of :message, :minimum=>20, :unless=>:in_progress?, :too_short=>"is too short. Write more!"
   validates_presence_of :username, :if=>:temp_user?, :unless=>:in_progress?
   validate :enough_paint_time
   validate :unique_username
