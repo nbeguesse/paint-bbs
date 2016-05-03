@@ -1,7 +1,7 @@
 # config/application.yml
 defaults: &defaults
   host: localhost:3000
-  title: doodle.
+  title: draw.
   description: A place to inspire your artistic creativity. Draw online and share with your friends. Absolutely free.
   canvas:
     default_width: 400
