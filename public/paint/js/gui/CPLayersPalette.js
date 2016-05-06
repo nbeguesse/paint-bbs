@@ -33,6 +33,7 @@ export default function CPLayersPalette(controller) {
         ];
     
     var
+        palette = this,
         layerH = 32, eyeW = 24,
         
         body = this.getBodyElement(),
@@ -108,6 +109,10 @@ export default function CPLayersPalette(controller) {
     };
 
     function CPLayerWidget() {
+        const
+            NOTIFICATION_HIDE_DELAY_MS_PER_CHAR = 70,
+            NOTIFICATION_HIDE_DELAY_MIN = 3000;
+
         var 
             layerDrag, layerDragReally,
             layerDragIndex, layerDragY,
@@ -116,6 +121,13 @@ export default function CPLayersPalette(controller) {
             
             canvas = document.createElement("canvas"),
             canvasContext = canvas.getContext("2d"),
+
+            oldApplyPlacement,
+            notificationMessage = "",
+            notificationLayerIndex = -1,
+            notificationLocation = "",
+
+            dismissTimer = false,
             
             that = this;
 
@@ -124,7 +136,7 @@ export default function CPLayersPalette(controller) {
          */
         this.getCSSSize = function() {
             return {width: $(canvas).width(), height: $(canvas).height()};
-        }
+        };
         
         function getLayerIndex(point) {
             return Math.floor((canvas.height - point.y / $(canvas).height() * canvas.height) / layerH);
@@ -165,10 +177,10 @@ export default function CPLayersPalette(controller) {
 
             canvasContext.beginPath();
             if (layer.visible) {
-                canvasContext.arc(eyeW / 2, layerH / 2, 10 * window.devicePixelRatio, 0, Math.PI * 2);
+                canvasContext.arc(eyeW / 2, layerH / 2, 9 * window.devicePixelRatio, 0, Math.PI * 2);
                 canvasContext.fill();
             } else {
-                canvasContext.arc(eyeW / 2, layerH / 2, 10 * window.devicePixelRatio, 0, Math.PI * 2);
+                canvasContext.arc(eyeW / 2, layerH / 2, 9 * window.devicePixelRatio, 0, Math.PI * 2);
                 canvasContext.stroke();
             }
         }
@@ -187,7 +199,7 @@ export default function CPLayersPalette(controller) {
                 //layerDragY = e.pageY - offset.top;
                 
                 if (layerOver >= 0 && layerOver <= layers.length && layerOver != layerDragIndex && layerOver != layerDragIndex + 1) {
-                    artwork.moveLayer(layerDragIndex, layerOver);
+                    controller.actionPerformed({action: "CPMoveLayer", fromIndex: layerDragIndex, toIndex: layerOver});
                 }
 
                 // Do we need to repaint to erase draglines?
@@ -309,6 +321,7 @@ export default function CPLayersPalette(controller) {
             canvasContext.font = (layerH * 0.25) + "pt sans-serif";
             
             this.paint();
+            this.dismissNotification();
         };
         
         this.getElement = function() {
@@ -351,11 +364,9 @@ export default function CPLayersPalette(controller) {
                         layer = artwork.getLayer(layerIndex);
                     
                     if (mouseLoc.x / $(canvas).width() * canvas.width < eyeW) {
-                        artwork.setLayerVisibility(layerIndex, !layer.visible);
-                    } else {
-                        artwork.setActiveLayerIndex(layerIndex);
-                        // Since this is a slow GUI operation, this is a good chance to get the canvas ready for drawing
-                        artwork.performIdleTasks();
+                        controller.actionPerformed({action: "CPSetLayerVisibility", layerIndex: layerIndex, visible: !layer.visible});
+                    } else if (artwork.getActiveLayerIndex() != layerIndex) {
+                        controller.actionPerformed({action: "CPSetActiveLayerIndex", layerIndex: layerIndex});
                     }
                 }
                 
@@ -369,11 +380,114 @@ export default function CPLayersPalette(controller) {
                 }
             }
         });
+
+        /**
+         * Scroll the layer widget until the layer with the given index is fully visible.
+         *
+         * @param layerIndex
+         */
+        function revealLayer(layerIndex) {
+            var
+                layerWidgetPos = canvas.getBoundingClientRect(),
+
+                scrollBoxPos = container.getBoundingClientRect(),
+                scrollBoxHeight = scrollBoxPos.bottom - scrollBoxPos.top,
+
+                layerHeight = layerH / window.devicePixelRatio,
+
+                layerTop = layerWidgetPos.bottom - layerHeight * (layerIndex + 1),
+                layerBottom = layerTop + layerHeight;
+
+            container.scrollTop = Math.max(Math.min(Math.max(container.scrollTop, layerBottom - layerWidgetPos.top - scrollBoxHeight), layerTop - layerWidgetPos.top), 0);
+        }
+
+        this.dismissNotification = function() {
+            $(canvas).popover('hide');
+        };
+
+        this.showNotification = function(layerIndex, message, where) {
+            notificationMessage = message;
+            notificationLayerIndex = layerIndex;
+
+            if (artwork.getActiveLayerIndex() == layerIndex && where == "opacity") {
+                notificationLocation = "opacity";
+            } else {
+                notificationLocation = "layer";
+                revealLayer(layerIndex);
+            }
+
+            $(canvas).popover("show");
+
+            if (dismissTimer) {
+                clearTimeout(dismissTimer);
+            }
+            dismissTimer = setTimeout(function() {
+                dismissTimer = false;
+                that.dismissNotification()
+            }, Math.max(Math.round(notificationMessage.length * NOTIFICATION_HIDE_DELAY_MS_PER_CHAR), NOTIFICATION_HIDE_DELAY_MIN));
+        };
+
+        /* Reposition the popover to the layer/location that the notification applies to */
+        function applyNotificationPlacement(offset, placement) {
+            oldApplyPlacement.call(this, offset, placement);
+
+            var
+                $tip = this.tip(),
+                $arrow = this.arrow(),
+                layerWidgetPos = canvas.getBoundingClientRect(),
+                scrollBoxPos = container.getBoundingClientRect();
+
+            switch (notificationLocation) {
+                case "layer":
+                    var
+                        layerMiddle = layerWidgetPos.bottom - layerH / window.devicePixelRatio * (notificationLayerIndex + 0.5);
+
+                    layerMiddle = Math.min(Math.max(layerMiddle, scrollBoxPos.top), scrollBoxPos.bottom);
+
+                    $tip.offset({
+                        top: layerMiddle + document.body.scrollTop - $tip.height() / 2,
+                        left: layerWidgetPos.left - $tip.outerWidth() - $arrow.outerWidth()
+                    });
+                break;
+                case "opacity":
+                    var
+                        alphaSliderPos = alphaSlider.getElement().getBoundingClientRect();
+
+                    $tip.offset({
+                        top: (alphaSliderPos.top + alphaSliderPos.bottom - $tip.height()) / 2 + document.body.scrollTop,
+                        left: alphaSliderPos.left - $tip.outerWidth() - $arrow.outerWidth()
+                    });
+                break;
+            }
+
+            $arrow.css("top", "50%");
+        }
+
+        controller.on("layerNotification", this.showNotification.bind(this));
+
+        $(canvas)
+            .popover({
+                html: false,
+                content: function() {
+                    return notificationMessage;
+                },
+                placement: "left",
+                trigger: "manual",
+                container: palette.getElement()
+            });
+
+        var
+            popover = $(canvas).data('bs.popover');
+
+        // Save the old positioning routine so we can call it later
+        oldApplyPlacement = popover.applyPlacement;
+
+        popover.applyPlacement = applyNotificationPlacement;
         
         if (!window.devicePixelRatio) {
             window.devicePixelRatio = 1.0;
         }
-        
+
         canvasContext.strokeStyle = 'black';
         
         container.className = "chickenpaint-layers-widget";
@@ -393,10 +507,9 @@ export default function CPLayersPalette(controller) {
         };
 
         this.renameAndHide = function() {
-            var 
-                artwork = controller.getArtwork();
-
-            artwork.setLayerName(layerIndex, textBox.value);
+            if (artwork.getLayer(layerIndex).name != textBox.value) {
+                controller.actionPerformed({action: "CPSetLayerName", layerIndex: layerIndex, name: textBox.value});
+            }
 
             this.hide();
         };
@@ -447,17 +560,16 @@ export default function CPLayersPalette(controller) {
         });
 
         textBox.addEventListener("blur", function(e) {
-            that.renameAndHide();
+            if (layerIndex != -1) {
+                that.renameAndHide();
+            }
         });
     }
-    
+
     blendCombo.className = "form-control";
     blendCombo.title = "Layer blending mode";
     blendCombo.addEventListener("change", function(e) {
-        var
-            artwork = controller.getArtwork();
-        
-        artwork.setLayerBlendMode(artwork.getActiveLayerIndex(), parseInt(blendCombo.value, 10));
+        controller.actionPerformed({action: "CPSetLayerBlendMode", layerIndex: artwork.getActiveLayerIndex(), blendMode: parseInt(blendCombo.value, 10)});
     });
     
     fillCombobox(blendCombo, MODE_NAMES);
@@ -469,10 +581,7 @@ export default function CPLayersPalette(controller) {
     };
     
     alphaSlider.on("valueChange", function(value) {
-        var
-            artwork = controller.getArtwork();
-        
-        artwork.setLayerAlpha(artwork.getActiveLayerIndex(), value);
+        controller.actionPerformed({action: "CPSetLayerAlpha", layerIndex: artwork.getActiveLayerIndex(), alpha: value});
     });
     
     body.appendChild(alphaSlider.getElement());
@@ -510,15 +619,13 @@ export default function CPLayersPalette(controller) {
     addButton.className = 'chickenpaint-small-toolbar-button chickenpaint-add-layer';
     addButton.title = 'Add layer';
     addButton.addEventListener("click", function() {
-        controller.getArtwork().addLayer();
+        controller.actionPerformed({action: "CPAddLayer"});
     });
 
     removeButton.className = 'chickenpaint-small-toolbar-button chickenpaint-remove-layer';
     removeButton.title = "Delete layer";
     removeButton.addEventListener("click", function() {
-        if (!controller.getArtwork().removeLayer()) {
-            alert("Error: You can't remove the last remaining layer in the drawing.");
-        }
+        controller.actionPerformed({action: "CPRemoveLayer"});
     });
     
     addRemoveContainer.appendChild(addButton);
@@ -526,15 +633,14 @@ export default function CPLayersPalette(controller) {
 
     body.appendChild(addRemoveContainer);
     
-    // Set initial values
     var
         artwork = controller.getArtwork();
-    
+
+    // Set initial values
     alphaSlider.setValue(artwork.getActiveLayer().getAlpha());
     blendCombo.value = artwork.getActiveLayer().getBlendMode();
 
-    // add listeners
-    controller.getArtwork().on("changeLayer", function(layerIndex) {
+    artwork.on("changeLayer", function(layerIndex) {
         var
             artwork = this;
         
@@ -552,6 +658,8 @@ export default function CPLayersPalette(controller) {
             // We may have added or removed layers, resize as appropriate
             layerWidget.resize();
         }
+
+        layerWidget.dismissNotification();
     });
 }
 

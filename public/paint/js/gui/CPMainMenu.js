@@ -105,7 +105,16 @@ var
                     action: "CPDeselectAll",
                     mnemonic: "D",
                     shortcut: "ctrl+d"
-                }
+                },
+                {
+                    name: "-"
+                },
+                {
+                    name: "Transform",
+                    action: "CPTransform",
+                    mnemonic: "T",
+                    shortcut: "ctrl+y"
+                },
             ]
         },
         {
@@ -235,6 +244,7 @@ var
                     title: "Resets the zoom factor to 100%"
                 },
                 {
+                    action: "CPLinearInterpolation",
                     name: "-"
                 },
                 {
@@ -489,9 +499,12 @@ export default function CPMainMenu(controller, mainGUI) {
                 
                 menuLink.append(shortcutDesc);
                 
-                key(entry.shortcut, function() {
+                key(entry.shortcut, function(e) {
                     menuItemClicked(menuLink);
-                    
+
+                    e.preventDefault();
+                    e.stopPropagation();
+
                     return false;
                 });
             }

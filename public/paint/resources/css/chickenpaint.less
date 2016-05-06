@@ -95,12 +95,23 @@
 
 .chickenpaint-canvas {
     height:700px;
+
+    -ms-touch-action:none;
     touch-action:none;
+
     cursor:default;
     
     /* For mobile safari, prevent the canvas being highlighted grey on touch */
     -webkit-tap-highlight-color:transparent;
     -webkit-touch-callout: none;
+
+    /* Pixelate the canvas on high DPI displays instead of using default blurry scaling */
+    image-rendering: optimizeSpeed;
+    image-rendering: -moz-crisp-edges;
+    image-rendering: -webkit-optimize-contrast;
+    image-rendering: optimize-contrast;
+    image-rendering: pixelated;
+    -ms-interpolation-mode: nearest-neighbor;
 }
 .chickenpaint-canvas[data-cursor="grab"] {
     cursor:move;
@@ -114,6 +125,21 @@
 }
 .chickenpaint-canvas[data-cursor="crosshair"] {
     cursor:crosshair;
+}
+.chickenpaint-canvas[data-cursor="move"] {
+    cursor:move;
+}
+.chickenpaint-canvas[data-cursor="nesw-resize"] {
+    cursor:nesw-resize;
+}
+.chickenpaint-canvas[data-cursor="nwse-resize"] {
+    cursor:nwse-resize;
+}
+.chickenpaint-canvas[data-cursor="ns-resize"] {
+    cursor:ns-resize;
+}
+.chickenpaint-canvas[data-cursor="ew-resize"] {
+    cursor:ew-resize;
 }
 
 .chickenpaint-palettes {
@@ -326,7 +352,9 @@ body.chickenpaint-full-screen {
 }
 .chickenpaint-colorpicker-select,
 .chickenpaint-colorpicker-slider {
+    -ms-touch-action:none;
     touch-action:none;
+
     -webkit-tap-highlight-color:transparent;
     -webkit-touch-callout: none;
 }
@@ -403,6 +431,7 @@ body.chickenpaint-full-screen {
 .chickenpaint-slider {
     margin:1px;
 
+    -ms-touch-action:none;
     touch-action: none;
 
     -webkit-tap-highlight-color:transparent;
@@ -681,6 +710,10 @@ chickenpaint-aftersave-actions {
     margin-right: 0.5em;
 }
 
+.chickenpaint .chickenpaint-transform-panel label {
+    font-weight:normal;
+}
+
 /* More compact styles for small screens */
 @media (max-height: 768px) {
     .chickenpaint .navbar {
@@ -735,6 +768,7 @@ chickenpaint-aftersave-actions {
     .chickenpaint-stroke-tools,
     .chickenpaint-misc-tools,
     .chickenpaint-colorpicker-top {
+        display:block;
         white-space:nowrap;
     }
     .chickenpaint-palette-swatches .chickenpaint-palette-body,
@@ -756,6 +790,9 @@ chickenpaint-aftersave-actions {
         display: table-cell;
         vertical-align:top;
     }
+    .chickenpaint-checkbox-slider-group {
+        display:block;
+    }
     .chickenpaint-checkbox-slider-group .chickenpaint-checkbox,
     .chickenpaint-checkbox-slider-group .chickenpaint-slider {
         float:left;
@@ -771,6 +808,7 @@ chickenpaint-aftersave-actions {
     .chickenpaint-palette-layers .chickenpaint-palette-body {
         position:relative;
         overflow:hidden;
+        display:block;
     }
     .chickenpaint-layers-widget {
         position: absolute;

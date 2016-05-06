@@ -388,7 +388,7 @@ CPLayer.prototype.gradientHorzReplace = function(rect, fromX, toX, gradientPoint
 /**
  * Replace the pixels in the given rect with the given vertical gradient.
  *
- * @param rect CPRect
+ * @param {CPRect} rect
  * @param fromY int
  * @param toY int
  * @param gradientPoints int[]
@@ -682,6 +682,15 @@ CPLayer.prototype.getBlendMode = function() {
     return this.blendMode;
 };
 
+CPLayer.prototype.clone = function() {
+    var
+        result = new CPLayer(this.width, this.height, "");
+
+    result.copyFrom(this);
+
+    return result;
+};
+
 CPLayer.prototype.copyFrom = function(layer) {
     this.name = layer.name;
     this.blendMode = layer.blendMode;
@@ -746,10 +755,99 @@ CPLayer.prototype.hasAlphaInRect = function(rect) {
     return false;
 };
 
-// Return the canvas ImageData that backs this layer
-CPLayer.prototype.getImageData = function() {
-    return this.imageData;
+/**
+ * Get a rectangle that encloses any non-transparent pixels in the layer within the given initialBounds (or an empty
+ * rect if the pixels inside the given bounds are 100% transparent).
+ *
+ * @param {CPRect} initialBounds - The rect to search within (pass getBounds() to search the whole layer)
+ *
+ * @returns {CPRect}
+ */
+CPLayer.prototype.getNonTransparentBounds = function(initialBounds) {
+    var
+        pixIndex,
+        result = initialBounds.clone(),
+        x, y,
+        alphaOred,
+        yStride;
+
+    // Find the first non-transparent row
+    yStride = (this.width - result.getWidth()) * BYTES_PER_PIXEL;
+    pixIndex = this.offsetOfPixel(result.left, result.top) + ALPHA_BYTE_OFFSET;
+
+    for (y = result.top; y < result.bottom; y++, pixIndex += yStride) {
+        alphaOred = 0x00;
+
+        for (var x = result.left; x < result.right; x++, pixIndex += BYTES_PER_PIXEL) {
+            alphaOred |= this.data[pixIndex];
+        }
+
+        // Only check once per row in order to reduce branching in the inner loop
+        if (alphaOred != 0x00) {
+            break;
+        }
+    }
+
+    result.top = y;
+
+    if (result.top == result.bottom) {
+        // Rect is empty, no opaque pixels in the initialBounds
+        return result;
+    }
+
+    // Now the last non-transparent row
+    pixIndex = this.offsetOfPixel(result.right - 1, result.bottom - 1) + ALPHA_BYTE_OFFSET;
+    for (y = result.bottom - 1; y >= result.top; y--, pixIndex -= yStride) {
+        alphaOred = 0x00;
+
+        for (var x = result.right - 1; x >= result.left; x--, pixIndex -= BYTES_PER_PIXEL) {
+            alphaOred |= this.data[pixIndex];
+        }
+
+        // Only check once per row in order to reduce branching in the inner loop
+        if (alphaOred != 0x00) {
+            break;
+        }
+    }
+
+    result.bottom = y + 1; /* +1 since the bottom/right edges of the rect are exclusive */
+
+    // Now columns from the left
+    yStride = BYTES_PER_PIXEL * this.width;
+    for (x = result.left; x < result.right; x++) {
+        pixIndex = this.offsetOfPixel(x, result.top) + ALPHA_BYTE_OFFSET;
+        alphaOred = 0x00;
+
+        for (y = result.top; y < result.bottom; y++, pixIndex += yStride) {
+            alphaOred |= this.data[pixIndex];
+        }
+
+        if (alphaOred != 0x00) {
+            break;
+        }
+    }
+
+    result.left = x;
+
+    // And columns from the right
+    for (x = result.right - 1; x >= result.left; x--) {
+        pixIndex = this.offsetOfPixel(x, result.top) + ALPHA_BYTE_OFFSET;
+        alphaOred = 0x00
+
+        for (y = result.top; y < result.bottom; y++, pixIndex += yStride) {
+            alphaOred |= this.data[pixIndex];
+        }
+
+        if (alphaOred != 0x00) {
+            break;
+        }
+    }
+
+    result.right = x + 1;
+
+    return result;
 };
+
 
 CPLayer.LM_NORMAL = 0;
 CPLayer.LM_MULTIPLY = 1;
