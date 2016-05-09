@@ -5,6 +5,21 @@ class Comment < ActiveRecord::Base
   validates_presence_of :username, :if=>:temp_user?
   validate :blank_field_is_blank
   belongs_to :post
+  after_create :notify_users
+
+  def notify_users
+    if post.user && post.user.notify_on_new_comments
+      if user_id != post.user_id
+        begin
+          Mailer.notify_on_comment(post.user_id, post.id).deliver!
+        rescue Exception=>e
+          if Rails.env.development?
+            raise e
+          end
+        end
+      end
+    end
+  end
 
   def temp_user?
     user_type == "TempSession"

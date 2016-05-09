@@ -18,12 +18,20 @@
           </div>
         <%else%>
           <div class="form-item field">
+            <div class="option">
+              <%=f.check_box :notify_on_new_post%>
+              <%=f.label :notify_on_new_post, "Notify me when new posts are made"%>
+            </div><div class="option">
+              <%=f.check_box :notify_on_new_comments%>
+              <%=f.label :notify_on_new_comments, "Notify me when someone comments on my posts"%>
+            </div>
+          </div><div class="form-item field">
             <%=f.label :avatar, :class=>"title"%>
             <%=f.file_field :avatar, :class=>"field-element"%>
             <%if @user.avatar.present?%>
               <%=image_tag @user.avatar.url(:small), :class=>"avatar"%>
             <%end%>
-          </div>        
+          </div>
         <%end%>
       </div>
       <div class="form-button-wrapper form-button-wrapper--align-left">

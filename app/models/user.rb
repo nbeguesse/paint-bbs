@@ -4,7 +4,8 @@ class User < ActiveRecord::Base
   validates_presence_of :email
   validates_uniqueness_of :email
   validates_uniqueness_of :name
-
+  scope :notifiable_on_post, :conditions => {:notify_on_new_post => 'true'}  
+  scope :notifiable_on_comment, :conditions => {:notify_on_new_comments => 'true'}  
   PATH = '/avatars/:id/:style.:extension'
   opts =  { :path => ':rails_root/public' +PATH,
             :url => PATH,
