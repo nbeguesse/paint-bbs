@@ -13,7 +13,7 @@ class Comment < ActiveRecord::Base
         begin
           Mailer.notify_on_comment(post.user_id, post.id).deliver!
         rescue Exception=>e
-          if Rails.env.development?
+          unless Rails.env.production?
             raise e
           end
         end

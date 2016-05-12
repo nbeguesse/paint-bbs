@@ -102,10 +102,10 @@
         <div class="page-divider top-divider"></div>
         <section id="page" class="clear" role="main" data-content-field="main-content" data-collection-id="565e0a46e4b09a621bfc4187" data-edit-main-image="Banner" style="opacity: 1; min-height: auto;">
           <%=yield%>
-          <!-- <aside id="sidebar"><div class="sqs-layout sqs-grid-1 columns-1 empty" data-layout-label="Sidebar Content" data-type="block-field" id="sidebarBlocks"><div class="row sqs-row"><div class="col sqs-col-1 span-1"></div></div></div></aside> -->
 
         </section>
         <footer id="footer" class="clear">
+            <p>Can't think of what to draw? How about... <b><%=Topic.order("RANDOM()").first.try(:name)%></b></p>
           
             <p>
               <%if logged_in?%>

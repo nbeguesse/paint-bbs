@@ -45,16 +45,28 @@ describe CommentsController do
      }.to change(Comment, :count).by(-1)
   end
 
+  it "notifies users of a comment" do
+    expect{
+      make_comment
+    }.to change(ActionMailer::Base.deliveries, :length).by(1)
+    expect{
+      @comment = @post.comments.new(:username=>"Mary", :message=>"A new comment from a not logged-in user")
+      @comment.user_type = "TempSession"
+      @comment.user_id = "1111"
+      @comment.ip_address = "127.0.0.1"
+      @comment.save!
+    }.to change(ActionMailer::Base.deliveries, :length).by(0)
+  end
+
 private
   def make_post
     login
-    @post = FactoryGirl.create(:post, :user_id=>@user.id, :user_type=>@user.class, :board_id=>@board.id)
+    @post = FactoryGirl.create(:post, :user_id=>@user.id, :user_type=>"User", :board_id=>@board.id)
   end
 
   def make_comment
     make_post
     logout
-    session = TempSession.new({})
     @comment = @post.comments.new(:username=>"Mary", :message=>"A new comment from a not logged-in user")
     @comment.user_type = "TempSession"
     @comment.user_id = "1111"

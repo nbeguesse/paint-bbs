@@ -10,7 +10,7 @@ class Post < ActiveRecord::Base
   before_save :set_slug
   scope :finished, :conditions => {:in_progress => false}
   has_many :comments, :order=>"id asc"
-  after_create :notify_users
+  after_save :notify_users
 
   IMG_PATH = '/posts/:board_id/:id_:style.:ext'
   #.CHI is not an animation file, just layer info
@@ -31,13 +31,15 @@ class Post < ActiveRecord::Base
           }.merge(Settings.storage_settings(false))
 
   def notify_users
-    User.notifiable_on_post.each do |temp_user|
-      next if temp_user.id == user_id
-      begin
-        Mailer.notify_on_post(temp_user.id, id).deliver!
-      rescue Exception=>e
-        if Rails.env.development?
-          raise e
+    if already_finished? && in_progress_was != true
+      User.notifiable_on_post.each do |temp_user|
+        next if temp_user.id == user_id
+        begin
+          Mailer.notify_on_post(temp_user.id, id).deliver!
+        rescue Exception=>e
+          unless Rails.env.production?
+            raise e
+          end
         end
       end
     end

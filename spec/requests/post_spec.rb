@@ -56,7 +56,7 @@ describe PostsController do
     assert_response :success
   end
 
-  it "displays a _post with avatar/moderator" do
+  it "displays a post with avatar/moderator" do
     make_board
     login_as_admin
     file = Rack::Test::UploadedFile.new(Rails.root.join('spec/fixtures/images/avatar1.jpg'), 'image/jpg')
@@ -139,6 +139,17 @@ describe PostsController do
     make_finished_post
     get "/posts/#{@post.slug}"
     assert_response :success
+  end
+
+  it "notifies on completed post" do
+    login
+    logout
+    expect{
+      make_finished_post
+    }.to change(ActionMailer::Base.deliveries, :length).by(1)
+    expect{
+      @post = FactoryGirl.create(:post, :user_id=>@user.id, :user_type=>@user.class, :board_id=>@board.id)
+    }.to change(ActionMailer::Base.deliveries, :length).by(0)    
   end
 
 private

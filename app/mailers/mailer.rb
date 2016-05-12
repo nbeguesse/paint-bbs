@@ -12,19 +12,26 @@ class Mailer < ActionMailer::Base
   end
 
   def notify_on_post(user_id, post_id)
-    subject = "A new post has been made on #{Settings.host}"
-    set_category "transactional"
     @user = User.find(user_id)
-    @post = Post.find(post_id)
-    mail(:to => @user.email, :subject => subject)
+    unless @user.last_emailed_at_post.to_f > @user.last_request_at.to_f
+      subject = "A new post has been made on #{Settings.host}"
+      set_category "transactional"
+      
+      @post = Post.find(post_id)
+      mail(:to => @user.email, :subject => subject)
+      @user.update_attribute(:last_emailed_at_post, Time.now)
+    end
   end
   
   def notify_on_comment(user_id, post_id)
-    subject = "Someone commented on your post!"
-    set_category "transactional"
-    @post = Post.find(post_id)
     @user = User.find(user_id)
-    mail(:to => @user.email, :subject => subject)
+    unless @user.last_emailed_at_comment.to_f > @user.last_request_at.to_f
+      subject = "Someone commented on your post!"
+      set_category "transactional"
+      @post = Post.find(post_id)
+      mail(:to => @user.email, :subject => subject)
+      @user.update_attribute(:last_emailed_at_comment, Time.now)
+    end
   end
 
   protected
