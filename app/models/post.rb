@@ -10,7 +10,7 @@ class Post < ActiveRecord::Base
   before_save :set_slug
   scope :finished, :conditions => {:in_progress => false}
   has_many :comments, :order=>"id asc"
-  after_save :notify_users
+  before_save :notify_users
 
   IMG_PATH = '/posts/:board_id/:id_:style.:ext'
   #.CHI is not an animation file, just layer info
@@ -31,7 +31,7 @@ class Post < ActiveRecord::Base
           }.merge(Settings.storage_settings(false))
 
   def notify_users
-    if already_finished? && in_progress_was != true
+    if !in_progress? && in_progress_changed?
       User.notifiable_on_post.each do |temp_user|
         next if temp_user.id == user_id
         begin

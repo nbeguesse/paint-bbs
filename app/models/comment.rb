@@ -5,7 +5,7 @@ class Comment < ActiveRecord::Base
   validates_presence_of :username, :if=>:temp_user?
   validate :blank_field_is_blank
   belongs_to :post
-  after_create :notify_users
+  before_create :notify_users
 
   def notify_users
     if post.user && post.user.notify_on_new_comments
