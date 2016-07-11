@@ -11,6 +11,7 @@ class Post < ActiveRecord::Base
   scope :finished, :conditions => {:in_progress => false}
   has_many :comments, :order=>"id asc"
   before_save :notify_users
+  after_create :notify_users_on_create
 
   IMG_PATH = '/posts/:board_id/:id_:style.:ext'
   #.CHI is not an animation file, just layer info
@@ -29,6 +30,21 @@ class Post < ActiveRecord::Base
             :url => PALETTE_PATH,
             :bucket=>Settings.storage_bucket,
           }.merge(Settings.storage_settings(false))
+
+  def notify_users_on_create
+    if !in_progress?
+      User.notifiable_on_post.each do |temp_user|
+        next if temp_user.id == user_id
+        begin
+          Mailer.notify_on_post(temp_user.id, id).deliver!
+        rescue Exception=>e
+          unless Rails.env.production?
+            raise e
+          end
+        end
+      end      
+    end
+  end
 
   def notify_users
     if !in_progress? && in_progress_changed?

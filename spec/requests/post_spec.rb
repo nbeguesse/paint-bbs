@@ -70,13 +70,16 @@ describe PostsController do
   end
 
   it "uploads a file" do
+    @email_user = FactoryGirl.create(:user)
     login
     get "/boards/#{@board.id}/posts/upload"
     assert_response :success
     expect {
-      file = Rack::Test::UploadedFile.new(Rails.root.join('spec/fixtures/images/avatar1.jpg'), 'image/jpg')
-      post "/boards/#{@board.id}/posts", :post=>{:image=>file, :title=>"My title", :message=>"A belated happy birthday."}
-    }.to change(Post, :count).by(1)
+      expect {
+        file = Rack::Test::UploadedFile.new(Rails.root.join('spec/fixtures/images/avatar1.jpg'), 'image/jpg')
+        post "/boards/#{@board.id}/posts", :post=>{:image=>file, :title=>"My title", :message=>"A belated happy birthday."}
+      }.to change(Post, :count).by(1)
+    }.to change(ActionMailer::Base.deliveries, :length).by(1)  
     @post = Post.last
     assert @post.paint_time.nil?
     assert !@post.in_progress?
@@ -144,17 +147,6 @@ describe PostsController do
     assert_response :success
   end
 
-  #doesn't work!
-  # it "notifies on completed post" do
-  #   login
-  #   logout
-  #   expect{
-  #     make_finished_post
-  #   }.to change(ActionMailer::Base.deliveries, :length).by(1)
-  #   expect{
-  #     @post = FactoryGirl.create(:post, :user_id=>@user.id, :user_type=>@user.class, :board_id=>@board.id)
-  #   }.to change(ActionMailer::Base.deliveries, :length).by(0)    
-  # end
 
 private
   def make_finished_post
