@@ -1,3 +1,4 @@
+  <%current_user ||= nil%>
   <article class="hentry post-type-text article-index-4">
     <!--POST HEADER-->
       <header>
@@ -30,13 +31,13 @@
           <%=post.message%>
           <div class="small">
             <time class="published dt-published" datetime="<%=post.created_at.strftime("%Y-%m-%d")%>" itemprop="datePublished" pubdate=""><%=distance_of_time_in_words Time.now, post.created_at%> ago</time>
-            <%if logged_in? && current_user.may_edit_post?(post)%>    
+            <%if current_user && current_user.may_edit_post?(post)%>    
               <%=link_to "Edit", edit_post_path(post)%>
-              <%if post.image.present? && logged_in? && current_user.may_continue_post?(post)%>
+              <%if post.image.present? && current_user.may_continue_post?(post)%>
                 &bullet; <%=link_to "Continue",doodle_path(post)%>
               <%end%>
                 &bullet; <%= link_to "Delete", post_path(post), :method => :delete, :confirm=>"Are you sure you want to delete this entire post?" %>
-                <%if logged_in? && current_user.mgt?%>
+                <%if current_user.mgt?%>
                  <br/><i><%=post.ip_address%></i>
                 <%end%>
             <%end%>
