@@ -1,4 +1,7 @@
       <ul>
+        <li class="page-collection <%="active-link" if @active_link=="home"%>">
+            <%=link_to "Community.", root_url%>
+        </li>
         <li class="page-collection <%="active-link" if @active_link == "doodle"%>">
             <%=link_to "Doodle a pic.", doodle_path, :class=>"doodle-link "+set_canvas_size_class%>
         </li>

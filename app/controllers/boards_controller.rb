@@ -7,5 +7,6 @@ class BoardsController < ApplicationController
         @board = Board.find(params[:id])
       end
       @posts = @board.posts.finished.paginate(:page=>params[:page], :per_page=>10, :order=>"id desc")
+      @active_link="home"
     end
 end
