@@ -24,6 +24,7 @@ gem 'simplecov', :require => false, :group => :test
 gem 'simplecov-rcov' 
 gem "factory_girl_rails",     "=4.2.1" 
 gem "activeadmin",            "=0.5.1"
+gem "airbrake"
 
 
 

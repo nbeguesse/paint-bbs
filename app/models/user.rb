@@ -1,5 +1,5 @@
 class User < ActiveRecord::Base
-  attr_accessible :email, :name, :password, :avatar
+  attr_accessible :email, :name, :password, :avatar, :notify_on_new_post, :notify_on_new_comments
   validates_presence_of :name
   validates_presence_of :email
   validates_uniqueness_of :email

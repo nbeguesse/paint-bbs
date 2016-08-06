@@ -3,7 +3,7 @@ class PostsController < InheritedResources::Base
     before_filter :get_post, :only=>[:new, :edit, :doodle, :save, :show]
     before_filter :get_board
     before_filter :require_post, :only=>[:new, :edit, :show]
-    before_filter :require_user, :only=>[:upload, :create]
+    #before_filter :require_user, :only=>[:upload, :create]
     before_filter :may_edit_post, :only=>[:doodle, :destroy, :edit, :update]
 
     def show
@@ -56,7 +56,7 @@ class PostsController < InheritedResources::Base
     #to reach, click "Upload" in menu
     def upload
       @active_link = "upload"
-      @post = generate_post(current_user, {:is_upload=>true})
+      @post = generate_post(session_obj, {:is_upload=>true})
       render :new
     end
 
@@ -64,7 +64,7 @@ class PostsController < InheritedResources::Base
     def create
       @active_link = "upload"
       params[:post][:is_upload] = true
-      @post = generate_post(current_user, params[:post])
+      @post = generate_post(session_obj, params[:post])
       if @post.save
         flash[:notice] = "You made a new post!"
         redirect_to board_path(@board)

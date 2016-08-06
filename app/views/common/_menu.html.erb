@@ -3,7 +3,7 @@
             <%=link_to "Doodle a pic.", doodle_path, :class=>"doodle-link "+set_canvas_size_class%>
         </li>
           <li class="page-collection <%="active-link" if @active_link == "upload"%>">
-              <%=link_to "write a post.", upload_board_posts_path(@board || Board.default)%>
+              <%=link_to "ask a question.", upload_board_posts_path(@board || Board.default)%>
           </li>
         <%if logged_in?%>
           <li class="page-collection <%="active-link" if @active_link == "edit_account"%>">
