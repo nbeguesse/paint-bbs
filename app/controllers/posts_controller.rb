@@ -6,8 +6,11 @@ class PostsController < InheritedResources::Base
     #before_filter :require_user, :only=>[:upload, :create]
     before_filter :may_edit_post, :only=>[:doodle, :destroy, :edit, :update]
 
-    def show
+    def index
+      redirect_to :action=>:upload
+    end
 
+    def show
       @title = @post.title
     end
 
