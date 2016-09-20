@@ -7,6 +7,7 @@ class Post < ActiveRecord::Base
   validates_presence_of :username, :if=>:temp_user?, :unless=>:in_progress?
   validate :enough_paint_time
   validate :unique_username
+  validate :no_spam
   before_save :set_slug
   scope :finished, :conditions => {:in_progress => false}
   has_many :comments, :order=>"id asc"
@@ -113,6 +114,17 @@ protected
 
 def helpers
   ActionController::Base.helpers
+end
+
+def no_spam
+  # if temp_user?
+    if message && message.include?("http")
+      errors.add :message, "cannot include URLs."
+    end
+    if title && title.include?("http")
+      errors.add :title, "cannot include URLs."
+    end
+  # end
 end
 
   def enough_paint_time
