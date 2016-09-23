@@ -28,7 +28,7 @@
             <%=render :partial=>"posts/avatar", :locals=>{:user=>post.user}%>
             <figcaption><%=post.creator%></figcaption>
           </figure>
-          <%=post.message%>
+          <%=simple_format(post.message)%>
           <div class="small">
             <time class="published dt-published" datetime="<%=post.created_at.strftime("%Y-%m-%d")%>" itemprop="datePublished" pubdate=""><%=distance_of_time_in_words Time.now, post.created_at%> ago</time>
             <%if current_user && current_user.may_edit_post?(post)%>    
