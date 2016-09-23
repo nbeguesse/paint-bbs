@@ -4,7 +4,7 @@
                   <figcaption><%=comment.creator%></figcaption>
                 
                 </figure>
-                <%=comment.message%>
+                <%=simple_format(comment.message)%>
                 <div class="small">
                   <time class="published dt-published" datetime="<%=comment.created_at.strftime("%Y-%m-%d")%>" itemprop="datePublished" pubdate=""><%=distance_of_time_in_words Time.now, comment.created_at%> ago</time>
 
