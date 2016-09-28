@@ -2,10 +2,6 @@ class UserSessionsController < ApplicationController
   #force_ssl
   before_filter :require_user, :only => [:destroy]
 
-  def debug
-    @request = request.session_options
-  end
-
 
   def create
     @user_session = UserSession.new(params[:user_session])
@@ -39,17 +35,10 @@ class UserSessionsController < ApplicationController
   def destroy
     current_user.reset_persistence_token
     current_user_session.destroy
-    if params[:redirect]
-      redirect_to params[:redirect]
-    else
-      flash[:notice] = "See you soon!"
-      redirect_to root_url
-    end
+    flash[:notice] = "See you soon!"
+    redirect_to root_url
   end
 
-  def show
-    redirect_to root_path
-  end
 
 
 end

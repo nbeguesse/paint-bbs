@@ -14,7 +14,10 @@ class TopicsController < ApplicationController
   # GET /topics/1
   # GET /topics/1.json
   def show
-    @topic = Topic.find(params[:id])
+    @topic = Topic.find_by_id(params[:id])
+    unless @topic
+      redirect_to topics_url and return
+    end
 
     respond_to do |format|
       format.html # show.html.erb

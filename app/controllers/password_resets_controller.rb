@@ -34,11 +34,12 @@ class PasswordResetsController < ApplicationController
       flash[:notice] = "Your password has been updated, thanks"
       redirect_to root_path
     else
+      flash[:error] = @user.errors.full_messages.first
       render :action => :edit
     end
   end
 
-  private
+private
 
   def load_user_using_perishable_token
     @user = User.find_using_perishable_token(params[:id])
@@ -46,10 +47,6 @@ class PasswordResetsController < ApplicationController
       flash[:notice] = "The link has expired. Please create another password-reset request."
       redirect_to root_url
     end
+  end
 
-   rescue ActiveRecord::RecordNotFound
-
-     flash[:notice] = "The link has expired. Please create another password-reset request."
-       redirect_to root_url
-   end
 end 

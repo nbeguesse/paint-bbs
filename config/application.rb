@@ -63,7 +63,6 @@ module Paint
     config.autoload_paths += %W(#{config.root}/lib)
     config.autoload_paths += Dir["#{config.root}/lib/**/"]
     config.after_initialize do
-      require "authentication.rb"#doesnt work in production
 
       ActiveSupport::Deprecation.behavior = Proc.new { |msg, stack| Logger.new("#{Rails.root}/log/deprecations.log").warn(msg) }
 

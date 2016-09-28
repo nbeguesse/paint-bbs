@@ -45,16 +45,6 @@ class UsersController < ApplicationController
     end
   end
 
-
-  def change_password
-    @user = User.find params[:id]
-    User.transaction do
-      unless @user.update_attributes(params[:user])
-        flash[:error] = error_messages_as_string @user
-      end
-    end
-    redirect_to :back
-  end
   
 
 end

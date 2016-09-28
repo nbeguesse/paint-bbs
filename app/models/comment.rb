@@ -3,20 +3,15 @@ class Comment < ActiveRecord::Base
   attr_accessible :ip_address, :message, :username, :blank_field
   validates_presence_of [:post, :user_id, :user_type, :message, :ip_address]
   validates_presence_of :username, :if=>:temp_user?
-  validate :blank_field_is_blank
+  validate :username_is_not_taken, :if=>:temp_user?
+  validate :no_spam, :if=>:temp_user?
   belongs_to :post
   before_create :notify_users
 
   def notify_users
     if post.user && post.user.notify_on_new_comments
       if user_id != post.user_id
-        begin
-          Mailer.notify_on_comment(post.user_id, post.id).deliver!
-        rescue Exception=>e
-          unless Rails.env.production?
-            raise e
-          end
-        end
+        Mailer.notify_on_comment(post.user_id, post.id).deliver!
       end
     end
   end
@@ -35,7 +30,17 @@ class Comment < ActiveRecord::Base
     username || user.try(:name) || "Anonymous"
   end
 
-  def blank_field_is_blank
+  def username_is_not_taken
+    if User.find_by_name(username)
+      errors.add :username, "is already taken."
+    end
+  end
+
+
+  def no_spam
+    if message && message.include?("http")
+      errors.add :message, "cannot include URLs."
+    end
     if blank_field.present?
       errors.add :blank_field, "must be blank"
     end

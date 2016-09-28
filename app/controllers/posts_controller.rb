@@ -6,10 +6,6 @@ class PostsController < InheritedResources::Base
     #before_filter :require_user, :only=>[:upload, :create]
     before_filter :may_edit_post, :only=>[:doodle, :destroy, :edit, :update]
 
-    def index
-      redirect_to :action=>:upload
-    end
-
     def show
       @title = @post.title
     end
@@ -101,7 +97,7 @@ private
     def get_post
       @user = session_obj
       if params[:id]
-        @post = Post.find(params[:id])
+        @post = Post.find_by_id(params[:id])
       elsif params[:slug]
         @post = Post.find_by_slug(params[:slug])
       else
@@ -137,5 +133,13 @@ private
     return new_post_path
 
   end
-    
+private
+  def may_edit_post
+    if @post
+      unless session_obj.may_edit_post?(@post)
+        flash[:error] = "Please login as a moderator to do that."
+        redirect_to new_user_url
+      end
+    end
+  end
 end

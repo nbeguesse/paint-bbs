@@ -1,7 +1,7 @@
-require 'spec_helper'
-require 'rake'
+ require 'spec_helper'
+ require 'rake'
 
-describe PostsController do
+ describe PostsController do
 
   it "doodles and safety saves an image (not logged in)" do
     @email_user = FactoryGirl.create(:user)
@@ -76,13 +76,14 @@ describe PostsController do
     assert_response :success
     expect {
       expect {
-        file = Rack::Test::UploadedFile.new(Rails.root.join('spec/fixtures/images/avatar1.jpg'), 'image/jpg')
-        post "/boards/#{@board.id}/posts", :post=>{:image=>file, :title=>"My title", :message=>"A belated happy birthday."}
+        post "/boards/#{@board.id}/posts", :post=>{:image=>random_file, :title=>"My title", :message=>"A belated happy birthday."}
       }.to change(Post, :count).by(1)
     }.to change(ActionMailer::Base.deliveries, :length).by(1)  
     @post = Post.last
     assert @post.paint_time.nil?
     assert !@post.in_progress?
+    get board_post_path(@board, @post)
+    assert_response :success
     #Now trace over it
     get "/boards/#{@board.id}/posts/#{@post.id}/doodle"
     @paint = assigns(:paint)
@@ -93,6 +94,46 @@ describe PostsController do
     assert @post.reload.paint_time.nil?
   end
 
+  it "asks a question (not logged in)" do
+    make_board
+    expect {
+      post "/boards/#{@board.id}/posts", :post=>{:title=>"My title", :message=>"A belated happy birthday.", :username=>"Mary"}
+    }.to change(Post, :count).by(1)
+    get board_path(@board)
+    assert_response :success
+  end
+
+  it "uploads a file (not logged in)" do
+    make_board
+    expect {
+      post "/boards/#{@board.id}/posts", :post=>{:image=>random_file, :title=>"My title", :message=>"A belated happy birthday.", :username=>"Mary"}
+    }.to change(Post, :count).by(1)
+    @post = Post.last
+    assert @post.paint_time.nil?
+    assert !@post.in_progress?
+    get board_post_path(@board, @post)
+    assert_response :success
+  end
+
+  it "bounces if it detects URLs (not logged in)" do
+    make_board
+    expect {
+      post "/boards/#{@board.id}/posts", :post=>{:image=>random_file, :title=>"My title", :message=>"http://google.com", :username=>"Mary"}
+    }.to change(Post, :count).by(0)
+    assert flash[:error].present?
+    expect {
+      post "/boards/#{@board.id}/posts", :post=>{:image=>random_file, :title=>"http://google.com", :message=>"Happy Birthday!", :username=>"Mary"}
+    }.to change(Post, :count).by(0)
+    assert flash[:error].present?
+  end
+
+  it "bounces if no message" do
+    make_finished_post
+    put "/boards/#{@board.id}/posts/#{@post.id}", :post=>{:message=>""}
+    assert_response :success
+    assert flash[:error].present?
+  end
+
 
   it "deletes a post" do
     make_finished_post
@@ -100,6 +141,8 @@ describe PostsController do
      expect{
        delete "/boards/#{@board.id}/posts/#{@post.id}"
      }.to change(Post, :count).by(-1)
+     get board_post_path(@board, @post)
+     assert flash[:error].present?
   end
 
   it "edits someone else's (finished already)" do
@@ -110,7 +153,17 @@ describe PostsController do
     put "/boards/#{@board.id}/posts/#{@post.id}", :post=>{:title=>"Edited post"}
     assert_response :redirect
     assert_equal @post.reload.title, "Edited post"
-    #don't continue in this situation, it's too weird
+    #don't "continue" in this situation, it's too weird
+  end
+
+  it "can't edit someone else's post" do
+    make_finished_post
+    login
+    get "/boards/#{@board.id}/posts/#{@post.id}/edit"
+    assert_response :redirect
+    put "/boards/#{@board.id}/posts/#{@post.id}", :post=>{:title=>"Edited post"}
+    assert_response :redirect
+    assert flash[:error].present?
   end
 
   it "transfers a pic (login)" do
@@ -149,6 +202,10 @@ describe PostsController do
 
 
 private
+  def random_file
+    Rack::Test::UploadedFile.new(Rails.root.join('spec/fixtures/images/avatar1.jpg'), 'image/jpg')
+  end
+
   def make_finished_post
     login
     @post = FactoryGirl.create(:post, :user_id=>@user.id, :user_type=>@user.class, :board_id=>@board.id)
@@ -160,4 +217,4 @@ private
     @swatches = Rack::Test::UploadedFile.new(Rails.root.join('spec/fixtures/images/29.aco'))
   end
 
-end
+ end

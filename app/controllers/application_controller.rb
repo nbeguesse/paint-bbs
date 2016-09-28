@@ -1,11 +1,10 @@
 class ApplicationController < ActionController::Base
   protect_from_forgery
   helper :all 
-  include Authentication
   before_filter :set_request
   # include ::SslRequirement
 
-  helper_method :secure?, :session_obj, :post_path, :new_post_path, :edit_post_path, :doodle_path
+  helper_method :secure?, :session_obj, :post_path, :new_post_path, :edit_post_path, :doodle_path, :current_user_session, :current_user, :logged_in?, :current_actual_user
   def secure?
     Rails.env.production?
   end
@@ -17,10 +16,6 @@ class ApplicationController < ActionController::Base
    def session_obj
     #for logged in user
     return current_user if logged_in? 
-    #for testing only
-    if Rails.env.test? && params[:session_id]
-      return TempSession.new(:id=>params[:session_id]) 
-    end
     #for non-logged in user
     TempSession.new(request.session_options) 
   end
@@ -60,6 +55,47 @@ class ApplicationController < ActionController::Base
       doodle_board_posts_path(@board || Board.default)
     end
   end
+
+  def current_user_session
+    return @current_user_session if defined?(@current_user_session)
+    @current_user_session = UserSession.find
+  end
+
+  def logged_in?
+    current_user.present?
+  end
+
+  def current_user
+    return @current_user if defined?(@current_user)
+    return unless current_user_session.present?
+
+    @current_user = current_user_session.user
+
+    @current_user
+  end
+
+
+  def require_user
+    unless current_user
+
+      flash[:error] = "Please login or sign up to continue."
+      redirect_to new_user_url
+
+    end
+  end
+
+
+  def require_no_user
+    if current_user
+      flash[:error] = "Please logout first. The link is at the bottom of the page."
+      redirect_to root_url
+      return false
+    end
+  end
+
+
+
+
 
    
 end

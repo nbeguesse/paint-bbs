@@ -4,7 +4,7 @@ Paint::Application.routes.draw do
 
 
   resources :boards do
-    resources :posts do
+    resources :posts, :except=>[:index] do
       collection do
         post :save
         get :doodle

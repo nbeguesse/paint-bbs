@@ -1,5 +1,5 @@
 class Post < ActiveRecord::Base
-  attr_accessible :message, :title, :paint_time, :in_progress, :username, :image, :is_upload, :uploaded_art, :faq_category
+  attr_accessible :message, :title, :paint_time, :in_progress, :username, :image, :is_upload, :faq_category
   belongs_to :board
   validates_presence_of [:board,:user_id,:user_type]
   validates_presence_of [:title, :message], :unless=>:in_progress?
@@ -7,7 +7,7 @@ class Post < ActiveRecord::Base
   validates_presence_of :username, :if=>:temp_user?, :unless=>:in_progress?
   validate :enough_paint_time
   validate :unique_username
-  validate :no_spam
+  validate :no_spam, :if=>:temp_user?
   before_save :set_slug
   scope :finished, :conditions => {:in_progress => false}
   has_many :comments, :order=>"id asc"
@@ -36,13 +36,7 @@ class Post < ActiveRecord::Base
     if !in_progress?
       User.notifiable_on_post.each do |temp_user|
         next if temp_user.id == user_id
-        begin
           Mailer.notify_on_post(temp_user.id, id).deliver!
-        rescue Exception=>e
-          unless Rails.env.production?
-            raise e
-          end
-        end
       end      
     end
   end
@@ -51,13 +45,7 @@ class Post < ActiveRecord::Base
     if !in_progress? && in_progress_changed?
       User.notifiable_on_post.each do |temp_user|
         next if temp_user.id == user_id
-        begin
           Mailer.notify_on_post(temp_user.id, id).deliver!
-        rescue Exception=>e
-          unless Rails.env.production?
-            raise e
-          end
-        end
       end
     end
   end

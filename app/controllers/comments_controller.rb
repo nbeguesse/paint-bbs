@@ -28,12 +28,24 @@ class CommentsController < InheritedResources::Base
         render :edit
       end
     end
-
-    def destroy
-      @comment = Comment.find(params[:id])
-      @comment.destroy
-      redirect_to @comment.post.board
+private
+  def may_edit_comment
+    if @comment = Comment.find(params[:id])
+      unless (current_user && current_user.may_edit_comment?(@comment))
+        flash[:error] = "Please login as a moderator to do that."
+        redirect_to new_user_url
+      end
     end
+  end
+
+  def may_delete_comment
+    if @comment = Comment.find(params[:id])
+      unless (current_user && current_user.may_delete_comment?(@comment))
+        flash[:error] = "Please login as a moderator to do that."
+        redirect_to new_user_url
+      end
+    end
+  end
 
 
 end

@@ -1,24 +1,13 @@
 #this is just a container for holding cars before the user has logged in.
 class TempSession
 
-  def self.destroy_all
-    Post.where(["owner_type = ?",self.to_s]).destroy_all
-  end
-
-  def self.scoped
-    self
-  end 
   
   def self.find(num, options)
     nil
   end
 
   def initialize(options)
-    if Rails.env.test? 
-      @options = {:id=>TempSession.test_id}
-    else
-  	  @options = options
-    end
+    @options = Rails.env.test? ? {:id=>TempSession.test_id} : options
   end
 
   def self.test_id
