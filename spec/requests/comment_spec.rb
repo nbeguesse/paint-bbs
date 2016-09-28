@@ -92,6 +92,7 @@ describe CommentsController do
       post "/comments", :comment=>{:message=>"A belated happy birthday.", :username=>@user.name}, :post_id=>@post.id
     }.to change(Comment, :count).by(0)
     assert flash[:error].present?
+    assert assigns(:comment).errors.messages[:username]
   end
 
   it "notifies users of a comment" do
@@ -130,6 +131,7 @@ describe CommentsController do
     put "/comments/#{@comment.id}", :comment=>{:message=>""}
     assert_response :success
     assert flash[:error].present?
+    assert assigns(:comment).errors.messages[:message]
   end
 
 private

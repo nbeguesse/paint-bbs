@@ -77,10 +77,8 @@ class ApplicationController < ActionController::Base
 
   def require_user
     unless current_user
-
       flash[:error] = "Please login or sign up to continue."
       redirect_to new_user_url
-
     end
   end
 

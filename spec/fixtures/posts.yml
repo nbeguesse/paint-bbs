@@ -1,0 +1,579 @@
+attributes_1:
+  id: 1
+  user_id: '1'
+  user_type: User
+  board_id: 2
+  title: The painting program is messing up!
+  message: First, try it in a different browser or mobile device. The painting program
+    requires the latest technologies, so try upgrading your browser or mobile device
+    to the latest one.
+  paint_time:
+  slug: the-painting-program-is-messing-up
+  in_progress: false
+  image_file_size:
+  image_content_type:
+  image_file_name:
+  image_updated_at:
+  anim_file_size:
+  anim_content_type:
+  anim_file_name:
+  anim_updated_at:
+  created_at: 2016-04-26 17:26:48.889574000 Z
+  updated_at: 2016-04-26 17:26:48.889574000 Z
+  rotation:
+  palette_file_size:
+  palette_content_type:
+  palette_file_name:
+  palette_updated_at:
+  username:
+  ip_address: 64.203.197.89
+  is_upload: true
+  faq_category: help
+
+attributes_2:
+  id: 2
+  user_id: '1'
+  user_type: User
+  board_id: 2
+  title: I forgot my password!
+  message: To reset your password, first logout if you haven't yet (the logout link
+    is at the bottom of the page). Then click "login" and then "forgot password?"
+    The password reset instructions will be emailed to you, and you will have the
+    opportunity to make a new one.
+  paint_time:
+  slug: i-forgot-my-password
+  in_progress: false
+  image_file_size:
+  image_content_type:
+  image_file_name:
+  image_updated_at:
+  anim_file_size:
+  anim_content_type:
+  anim_file_name:
+  anim_updated_at:
+  created_at: 2016-04-26 17:28:39.881617000 Z
+  updated_at: 2016-04-26 17:28:39.881617000 Z
+  rotation:
+  palette_file_size:
+  palette_content_type:
+  palette_file_name:
+  palette_updated_at:
+  username:
+  ip_address: 64.203.197.89
+  is_upload: true
+  faq_category: help
+
+attributes_3:
+  id: 3
+  user_id: '1'
+  user_type: User
+  board_id: 2
+  title: My image disappeared! Where did it go?
+  message: If you can't find your image anywhere, your image was deleted by a moderator.
+  paint_time:
+  slug: my-image-disappeared-where-did-it-go
+  in_progress: false
+  image_file_size:
+  image_content_type:
+  image_file_name:
+  image_updated_at:
+  anim_file_size:
+  anim_content_type:
+  anim_file_name:
+  anim_updated_at:
+  created_at: 2016-04-26 17:29:35.169586000 Z
+  updated_at: 2016-04-26 17:29:35.169586000 Z
+  rotation:
+  palette_file_size:
+  palette_content_type:
+  palette_file_name:
+  palette_updated_at:
+  username:
+  ip_address: 64.203.197.89
+  is_upload: true
+  faq_category: help
+
+attributes_4:
+  id: 4
+  user_id: '1'
+  user_type: User
+  board_id: 2
+  title: What is oekaki?
+  message: "'Oekaki' is Japanese for 'doodle'. An oekaki program is an interactive
+    applet that lets you draw pictures and post them on the web for others to see
+    and comment on. Most oekaki are created in Japanese and translated into English.
+    This website's oekaki program is based on ChickenPaint, which is in turn based
+    on ChibiPaint, a Japanese java applet."
+  paint_time:
+  slug: what-is-oekaki
+  in_progress: false
+  image_file_size:
+  image_content_type:
+  image_file_name:
+  image_updated_at:
+  anim_file_size:
+  anim_content_type:
+  anim_file_name:
+  anim_updated_at:
+  created_at: 2016-04-26 17:30:59.190530000 Z
+  updated_at: 2016-04-26 17:30:59.190530000 Z
+  rotation:
+  palette_file_size:
+  palette_content_type:
+  palette_file_name:
+  palette_updated_at:
+  username:
+  ip_address: 64.203.197.89
+  is_upload: true
+  faq_category: howto
+
+attributes_5:
+  id: 5
+  user_id: '1'
+  user_type: User
+  board_id: 2
+  title: How do I get an icon?
+  message: 'First, login or sign up for a new account. Then click "profile" and choose
+    an avatar image. Press "update" to upload it. '
+  paint_time:
+  slug: how-do-i-get-an-icon
+  in_progress: false
+  image_file_size:
+  image_content_type:
+  image_file_name:
+  image_updated_at:
+  anim_file_size:
+  anim_content_type:
+  anim_file_name:
+  anim_updated_at:
+  created_at: 2016-04-26 17:32:26.538264000 Z
+  updated_at: 2016-04-26 17:32:26.538264000 Z
+  rotation:
+  palette_file_size:
+  palette_content_type:
+  palette_file_name:
+  palette_updated_at:
+  username:
+  ip_address: 64.203.197.89
+  is_upload: true
+  faq_category: howto
+
+attributes_6:
+  id: 6
+  user_id: '1'
+  user_type: User
+  board_id: 2
+  title: How do I upload an image?
+  message: 'Only logged-in users can upload an image. Login, then click "upload" to
+    add an image. You are only allowed to upload images you''ve made yourself. '
+  paint_time:
+  slug: how-do-i-upload-an-image
+  in_progress: false
+  image_file_size:
+  image_content_type:
+  image_file_name:
+  image_updated_at:
+  anim_file_size:
+  anim_content_type:
+  anim_file_name:
+  anim_updated_at:
+  created_at: 2016-04-26 17:34:01.531835000 Z
+  updated_at: 2016-04-26 17:34:01.531835000 Z
+  rotation:
+  palette_file_size:
+  palette_content_type:
+  palette_file_name:
+  palette_updated_at:
+  username:
+  ip_address: 64.203.197.89
+  is_upload: true
+  faq_category: howto
+
+attributes_7:
+  id: 7
+  user_id: '1'
+  user_type: User
+  board_id: 2
+  title: Can I post my drawings from Photoshop or other oekaki boards?
+  message: Yes. Uploaded images must be your own work and they cannot contain graphic
+    nudity.
+  paint_time:
+  slug: can-i-post-my-drawings-from-photoshop-or-other-oekaki-boards
+  in_progress: false
+  image_file_size:
+  image_content_type:
+  image_file_name:
+  image_updated_at:
+  anim_file_size:
+  anim_content_type:
+  anim_file_name:
+  anim_updated_at:
+  created_at: 2016-04-26 17:34:49.256252000 Z
+  updated_at: 2016-04-26 17:34:49.256252000 Z
+  rotation:
+  palette_file_size:
+  palette_content_type:
+  palette_file_name:
+  palette_updated_at:
+  username:
+  ip_address: 64.203.197.89
+  is_upload: true
+  faq_category: howto
+
+attributes_8:
+  id: 8
+  user_id: '1'
+  user_type: User
+  board_id: 2
+  title: Can I post my hand-drawn art?
+  message: Typically hand-drawn art is low-quality or badly scanned. Before you upload
+    your hand-drawn art, make sure it meets the overall standard of the website and
+    that you've spent as long drawing it by hand as the other doodles.
+  paint_time:
+  slug: can-i-post-my-hand-drawn-art
+  in_progress: false
+  image_file_size:
+  image_content_type:
+  image_file_name:
+  image_updated_at:
+  anim_file_size:
+  anim_content_type:
+  anim_file_name:
+  anim_updated_at:
+  created_at: 2016-04-26 17:36:50.803463000 Z
+  updated_at: 2016-04-26 17:36:50.803463000 Z
+  rotation:
+  palette_file_size:
+  palette_content_type:
+  palette_file_name:
+  palette_updated_at:
+  username:
+  ip_address: 64.203.197.89
+  is_upload: true
+  faq_category: howto
+
+attributes_9:
+  id: 9
+  user_id: '1'
+  user_type: User
+  board_id: 2
+  title: Can I draw a picture with artistic nudity?
+  message: No. Your image will be removed for graphic nudity whether it is artistic
+    or not.
+  paint_time:
+  slug: can-i-draw-a-picture-with-artistic-nudity
+  in_progress: false
+  image_file_size:
+  image_content_type:
+  image_file_name:
+  image_updated_at:
+  anim_file_size:
+  anim_content_type:
+  anim_file_name:
+  anim_updated_at:
+  created_at: 2016-04-26 17:37:59.448838000 Z
+  updated_at: 2016-04-26 17:37:59.448838000 Z
+  rotation:
+  palette_file_size:
+  palette_content_type:
+  palette_file_name:
+  palette_updated_at:
+  username:
+  ip_address: 64.203.197.89
+  is_upload: true
+  faq_category: howto
+
+attributes_10:
+  id: 10
+  user_id: '1'
+  user_type: User
+  board_id: 2
+  title: Is it ok to give constructive criticism?
+  message: Experienced artists generally want constructive criticism, and inexperienced
+    new artists generally don't want constructive criticism. When leaving critiques,
+    consider the artist's experience, and use your best judgment. If you're unsure,
+    don't leave any critiques.
+  paint_time:
+  slug: is-it-ok-to-give-constructive-criticism
+  in_progress: false
+  image_file_size:
+  image_content_type:
+  image_file_name:
+  image_updated_at:
+  anim_file_size:
+  anim_content_type:
+  anim_file_name:
+  anim_updated_at:
+  created_at: 2016-04-26 17:41:00.690368000 Z
+  updated_at: 2016-04-26 17:41:00.690368000 Z
+  rotation:
+  palette_file_size:
+  palette_content_type:
+  palette_file_name:
+  palette_updated_at:
+  username:
+  ip_address: 64.203.197.89
+  is_upload: true
+  faq_category: howto
+
+attributes_11:
+  id: 11
+  user_id: '1'
+  user_type: User
+  board_id: 2
+  title: How do I draw with a tablet?
+  message: Inside the drawing app, click "Help" then "Tablet" to bring up a menu about
+    using tablet pressure.
+  paint_time:
+  slug: how-do-i-draw-with-a-tablet
+  in_progress: false
+  image_file_size:
+  image_content_type:
+  image_file_name:
+  image_updated_at:
+  anim_file_size:
+  anim_content_type:
+  anim_file_name:
+  anim_updated_at:
+  created_at: 2016-04-26 17:42:27.198119000 Z
+  updated_at: 2016-04-26 17:42:27.198119000 Z
+  rotation:
+  palette_file_size:
+  palette_content_type:
+  palette_file_name:
+  palette_updated_at:
+  username:
+  ip_address: 64.203.197.89
+  is_upload: true
+  faq_category: howto
+
+attributes_12:
+  id: 12
+  user_id: '1'
+  user_type: User
+  board_id: 2
+  title: What are the rules?
+  message: No spamming. No flaming. No graphic nudity. Work on your stuff for at least
+    15 minutes. Read the FAQ.
+  paint_time:
+  slug: what-are-the-rules
+  in_progress: false
+  image_file_size:
+  image_content_type:
+  image_file_name:
+  image_updated_at:
+  anim_file_size:
+  anim_content_type:
+  anim_file_name:
+  anim_updated_at:
+  created_at: 2016-05-02 02:05:24.276925000 Z
+  updated_at: 2016-05-02 02:05:24.276925000 Z
+  rotation:
+  palette_file_size:
+  palette_content_type:
+  palette_file_name:
+  palette_updated_at:
+  username:
+  ip_address: 108.110.230.230
+  is_upload: true
+  faq_category: rules
+
+attributes_13:
+  id: 14
+  user_id: '1'
+  user_type: User
+  board_id: 2
+  title: What is flaming?
+  message: Flaming is the harrassment or abuse of other artists or commenters. Flamers
+    insult and degrade their people instead of art, and they do it to get attention,
+    or to make themselves feel better. Flamers may be banned from the oekaki boards
+    on the first offense.
+  paint_time:
+  slug: what-is-flaming
+  in_progress: false
+  image_file_size:
+  image_content_type:
+  image_file_name:
+  image_updated_at:
+  anim_file_size:
+  anim_content_type:
+  anim_file_name:
+  anim_updated_at:
+  created_at: 2016-05-02 02:06:25.624965000 Z
+  updated_at: 2016-05-02 02:06:25.624965000 Z
+  rotation:
+  palette_file_size:
+  palette_content_type:
+  palette_file_name:
+  palette_updated_at:
+  username:
+  ip_address: 108.110.230.230
+  is_upload: true
+  faq_category: rules
+
+attributes_14:
+  id: 15
+  user_id: '1'
+  user_type: User
+  board_id: 2
+  title: Why was my image deleted?
+  message: "There are several possible reasons. \r\n\r\n1) Your image may have offensive
+    content. Nudity and general tastelessness are not allowed. \r\n\r\n2) Unfinished
+    work must be nontrivial. If it's just a sketch of a head, or a stick figure, it's
+    not going to stay. Don't leave your work unfinished unless you absolutely need
+    to!\r\n\r\n3) Your image may have been under the time-limit or otherwise below
+    standards. \r\n\r\nIf you believe your image was deleted in error, email me."
+  paint_time:
+  slug: why-was-my-image-deleted
+  in_progress: false
+  image_file_size:
+  image_content_type:
+  image_file_name:
+  image_updated_at:
+  anim_file_size:
+  anim_content_type:
+  anim_file_name:
+  anim_updated_at:
+  created_at: 2016-05-02 02:07:50.090593000 Z
+  updated_at: 2016-05-02 02:07:50.090593000 Z
+  rotation:
+  palette_file_size:
+  palette_content_type:
+  palette_file_name:
+  palette_updated_at:
+  username:
+  ip_address: 108.110.230.230
+  is_upload: true
+  faq_category: rules
+
+attributes_15:
+  id: 16
+  user_id: '1'
+  user_type: User
+  board_id: 2
+  title: What should I do if I see someone breaking the rules?
+  message: "If you see someone spamming, they most likely do not understand their
+    offense. You can help them understand why their behaviour is harmful to the boards.\r\n\r\nBut,
+    if you see someone posting flaming or posting nudity, the best thing to do is
+    to ignore it. The people who post such things do so out of lack of respect- they
+    only want attention, but probably won't respond to your comments even if you post
+    them. Email me immediately, and I'll delete the offensive post."
+  paint_time:
+  slug: what-should-i-do-if-i-see-someone-breaking-the-rules
+  in_progress: false
+  image_file_size:
+  image_content_type:
+  image_file_name:
+  image_updated_at:
+  anim_file_size:
+  anim_content_type:
+  anim_file_name:
+  anim_updated_at:
+  created_at: 2016-05-02 02:08:35.490800000 Z
+  updated_at: 2016-05-02 02:09:42.959968000 Z
+  rotation:
+  palette_file_size:
+  palette_content_type:
+  palette_file_name:
+  palette_updated_at:
+  username:
+  ip_address: 108.110.230.230
+  is_upload: true
+  faq_category: rules
+
+attributes_16:
+  id: 13
+  user_id: '1'
+  user_type: User
+  board_id: 2
+  title: What is spamming?
+  message: Spamming involves flooding the boards with images or comments, or leaving
+    comments that make no sense or are otherwise unwanted. Posting too may images
+    in one day will usually result in a warning, and may eventually result in the
+    user getting banned.
+  paint_time:
+  slug: what-is-spamming
+  in_progress: false
+  image_file_size:
+  image_content_type:
+  image_file_name:
+  image_updated_at:
+  anim_file_size:
+  anim_content_type:
+  anim_file_name:
+  anim_updated_at:
+  created_at: 2016-05-02 02:06:05.710774000 Z
+  updated_at: 2016-05-02 02:10:07.113092000 Z
+  rotation:
+  palette_file_size:
+  palette_content_type:
+  palette_file_name:
+  palette_updated_at:
+  username:
+  ip_address: 108.110.230.230
+  is_upload: true
+  faq_category: rules
+
+attributes_17:
+  id: 17
+  user_id: '1'
+  user_type: User
+  board_id: 2
+  title: Why did I get banned?
+  message: "You may get banned for flaming, spamming, posting graphic nudity, and
+    impersonating others. You may also be banned for ignoring or disobeying the moderators'
+    requests. \r\n\r\nThere is the possibility that you were banned in error. If you
+    have done none of these things, someone else with access to your computer may
+    have done them. \r\n\r\nTo get unbanned, you must email m."
+  paint_time:
+  slug: why-did-i-get-banned
+  in_progress: false
+  image_file_size:
+  image_content_type:
+  image_file_name:
+  image_updated_at:
+  anim_file_size:
+  anim_content_type:
+  anim_file_name:
+  anim_updated_at:
+  created_at: 2016-05-02 02:10:59.077514000 Z
+  updated_at: 2016-05-02 02:10:59.077514000 Z
+  rotation:
+  palette_file_size:
+  palette_content_type:
+  palette_file_name:
+  palette_updated_at:
+  username:
+  ip_address: 108.110.230.230
+  is_upload: true
+  faq_category: rules
+
+attributes_18:
+  id: 18
+  user_id: '1'
+  user_type: User
+  board_id: 2
+  title: How do I get unbanned?
+  message: The only way is to email me at info@angelboy.com.
+  paint_time:
+  slug: how-do-i-get-unbanned
+  in_progress: false
+  image_file_size:
+  image_content_type:
+  image_file_name:
+  image_updated_at:
+  anim_file_size:
+  anim_content_type:
+  anim_file_name:
+  anim_updated_at:
+  created_at: 2016-05-02 02:12:00.889071000 Z
+  updated_at: 2016-05-02 02:12:00.889071000 Z
+  rotation:
+  palette_file_size:
+  palette_content_type:
+  palette_file_name:
+  palette_updated_at:
+  username:
+  ip_address: 108.110.230.230
+  is_upload: true
+  faq_category: rules

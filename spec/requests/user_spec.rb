@@ -25,6 +25,7 @@ describe UsersController do
       post "/users", :user=>{:name=>@user.name, :email=>"my@gmail.com", :password=>"1234"}
     }.to change(User, :count).by(0)  
     assert flash[:error].present? #i.e. Name has already been taken
+    assert assigns(:user).errors.messages[:name]
     assert_response :success  
   end
 
@@ -47,6 +48,7 @@ describe UsersController do
     login
     put "/users/#{@user.id}", :user=>{:name=>already.name}
     assert flash[:error].present?
+    assert assigns(:user).errors.messages[:name]
     assert_response :success
 
   end

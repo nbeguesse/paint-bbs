@@ -44,7 +44,7 @@
     make_uploaded_files
     expect {
       saveUrl = URI.parse(@paint["saveUrl"]).path #strip the start_time parameter
-      post saveUrl, {"beginMarker"=>"This marker ensures the upload wasn't truncated", "picture"=>@picture, "chibifile"=>@chibifile, "rotation"=>"0", "swatches"=>@swatches, "endMarker"=>"This marker ensures the upload wasn't truncated", "started_at"=>20.minutes.ago.to_i, "board_id"=>"1"}
+      post saveUrl, {"beginMarker"=>"This marker ensures the upload wasn't truncated", "picture"=>@picture, "chibifile"=>@chibifile, "rotation"=>"0", "swatches"=>@swatches, "endMarker"=>"This marker ensures the upload wasn't truncated", "started_at"=>20.minutes.ago.to_i, "board_id"=>@board.id}
     }.to change(Post, :count).by(1)
     #finish the pic
     get @paint["postUrl"]
@@ -57,6 +57,27 @@
     #look at the finished pic
     follow_redirect!
     assert_response :success
+  end
+
+  it "requires minimum paint time" do
+    login
+    get "/boards/#{@board.id}/posts/doodle"
+    assert_response :success
+    @paint = assigns(:paint)
+    make_uploaded_files
+    expect {
+      post @paint["saveUrl"], {"beginMarker"=>"This marker ensures the upload wasn't truncated", "picture"=>@picture, "chibifile"=>@chibifile, "rotation"=>"0", "swatches"=>@swatches, "endMarker"=>"This marker ensures the upload wasn't truncated", "board_id"=>@board.id}
+    }.to change(Post, :count).by(1)
+    #finish the pic
+    get @paint["postUrl"]
+    assert_response :success
+    @post = Post.last
+    assert @post.in_progress
+    put "/boards/#{@board.id}/posts/#{@post.id}", :post=>{:title=>"My first post", :message=>"A belated happy birthday message."}
+    assert_response :success
+    assert flash[:error].present?
+    assert assigns(:post).errors.messages[:paint_time]
+    assert @post.reload.in_progress
   end
 
   it "displays a post with avatar/moderator" do
@@ -121,10 +142,12 @@
       post "/boards/#{@board.id}/posts", :post=>{:image=>random_file, :title=>"My title", :message=>"http://google.com", :username=>"Mary"}
     }.to change(Post, :count).by(0)
     assert flash[:error].present?
+    assert assigns(:post).errors.messages[:message]
     expect {
       post "/boards/#{@board.id}/posts", :post=>{:image=>random_file, :title=>"http://google.com", :message=>"Happy Birthday!", :username=>"Mary"}
     }.to change(Post, :count).by(0)
     assert flash[:error].present?
+    assert assigns(:post).errors.messages[:title]
   end
 
   it "bounces if no message" do
@@ -132,6 +155,7 @@
     put "/boards/#{@board.id}/posts/#{@post.id}", :post=>{:message=>""}
     assert_response :success
     assert flash[:error].present?
+    assert assigns(:post).errors.messages[:message]
   end
 
 
@@ -200,6 +224,15 @@
     assert_response :success
   end
 
+  it "can't take another user's name" do
+    make_finished_post
+    logout
+    expect{
+     post "/boards/#{@board.id}/posts", :post=>{:title=>"My title", :message=>"A belated happy birthday.", :username=>@user.name}
+    }.to change(Post, :count).by(0)
+    assert flash[:error].present?
+    assert assigns(:post).errors.messages[:username]
+  end
 
 private
   def random_file

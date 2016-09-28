@@ -39,6 +39,10 @@ class User < ActiveRecord::Base
     mgt? 
   end
 
+  def may_edit_topic? topic
+    mgt? 
+  end
+
   def may_login?
     !self.blocked
   end

@@ -1,5 +1,5 @@
 class TopicsController < ApplicationController
-  before_filter :require_admin
+  before_filter :may_edit_topic, :except=>[:index]
   # GET /topics
   # GET /topics.json
   def index
@@ -51,6 +51,7 @@ class TopicsController < ApplicationController
         format.html { redirect_to new_topic_path, notice: 'Thanks.' }
         format.json { render json: @topic, status: :created, location: @topic }
       else
+        flash[:error] =  @topic.errors.full_messages.first
         format.html { render action: "new" }
         format.json { render json: @topic.errors, status: :unprocessable_entity }
       end
@@ -67,6 +68,7 @@ class TopicsController < ApplicationController
         format.html { redirect_to @topic, notice: 'Topic was successfully updated.' }
         format.json { head :no_content }
       else
+        flash[:error] =  @topic.errors.full_messages.first
         format.html { render action: "edit" }
         format.json { render json: @topic.errors, status: :unprocessable_entity }
       end
@@ -82,6 +84,16 @@ class TopicsController < ApplicationController
     respond_to do |format|
       format.html { redirect_to topics_url }
       format.json { head :no_content }
+    end
+  end
+
+private
+  def may_edit_topic
+    if @topic = Topic.find_by_id(params[:id])
+      unless current_user && current_user.may_edit_topic?(@topic)
+        flash[:error] = "Please login as a moderator to do that."
+        redirect_to new_user_url
+      end
     end
   end
 end

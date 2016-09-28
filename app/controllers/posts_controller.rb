@@ -3,7 +3,6 @@ class PostsController < InheritedResources::Base
     before_filter :get_post, :only=>[:new, :edit, :doodle, :save, :show]
     before_filter :get_board
     before_filter :require_post, :only=>[:new, :edit, :show]
-    #before_filter :require_user, :only=>[:upload, :create]
     before_filter :may_edit_post, :only=>[:doodle, :destroy, :edit, :update]
 
     def show
